@@ -91,7 +91,7 @@ class Log{
         $data['username'] = $this->username;
         $data['action_id'] = $this->action_id;
         $data['surface']= $surface;
-        dump(get_url());
+       // dump(get_url());
         /*添加数据库*/
 //        $result = db($this->table)->add($data);
 //        if(!$result){

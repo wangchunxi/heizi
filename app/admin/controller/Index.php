@@ -7,6 +7,8 @@
  */
 namespace app\admin\controller;
 use app\admin\controller\Base;
+use app\admin\model\admin;
+
 class Index extends  Base{
     function _initialize()
     {
@@ -15,5 +17,9 @@ class Index extends  Base{
 
     public function index(){
      //   echo  '好气哦';
+        $admin = new admin();
+        $data['username'] = 'test';
+        $data['password'] = '123456';
+        $admin->admin_add();
     }
 }
