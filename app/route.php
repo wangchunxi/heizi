@@ -10,3 +10,4 @@
 // +----------------------------------------------------------------------
 use think\Route;
 Route::rule('admin','Admin/Index/index'); // 定义GET请求路由规则
+Route::rule('login','Admin/Share/login'); // 定义GET请求路由规则
