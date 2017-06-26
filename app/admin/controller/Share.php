@@ -14,11 +14,11 @@ class Share extends  common{
     }
 
     public function  login(){
-       if(input('post.')){
-           /*调用登陆类*/
-           echo  1;
-           exit();
-       }
+//       if(input('post.')){
+//           /*调用登陆类*/
+//           echo  1;
+//           exit();
+//       }
         return view();
     }
 

@@ -16,6 +16,6 @@ class Index extends  Base{
     }
 
     public function index(){
-      //  $admin->admin_add();
+      return view();
     }
 }
