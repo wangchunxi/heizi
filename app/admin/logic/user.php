@@ -16,7 +16,7 @@ class user extends Model{
         $this->model = new Admin();
     }
 
-    public function post($data){
+    public function set_post($data){
         $this->Post = $data;
         return $this;
     }
@@ -33,8 +33,8 @@ class user extends Model{
         /*判断是添加or修改*/
         $data = $post;
         if($post['id']){
-            //$data['update_id'] = ;
-            $info = $this->model->set_map()->set_map()->one_find();
+            $map['id'] = $post['id'];
+            $info = $this->model->set_and($map)->one_find();
             $password = $this->encrypt_password( $data['password']);
             if($info['password'] == $password){
                 unset($data['password']);
@@ -45,13 +45,14 @@ class user extends Model{
         }else{
             $data['add_time'] = time();
             $data['reg_ip'] =getIp();
-            $data['password'] =$this->encrypt_password( $data['password']);
+            $data['password'] =$this->encrypt_password($data['password']);
         }
         $result = $this->model->admin_sava($data);
-
     }
     public function vali_data(){
-        $result = $this->model->vali_data();
+        $post = $this->Post; $field = $post['field']; $value = $post['value'];
+        $map[$field] ="'$value'";
+        $result = $this->model->set_and($map)->vali_data();
         if($result){
             return  json_encode(array('info'=>false,'tips'=>'信息已被注册','url'=>''));
         }else{
