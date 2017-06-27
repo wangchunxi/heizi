@@ -5,7 +5,7 @@
  * Date: 2017/6/29
  * Time: 17:06
  */
-namespace app\index\logic;
+namespace app\admin\logic;
 use app\model\Admin;
 use think\Model;
 class user extends Model{
@@ -16,7 +16,7 @@ class user extends Model{
         $this->model = new Admin();
     }
 
-    private function post($data){
+    public function post($data){
         $this->Post = $data;
         return $this;
     }
@@ -25,26 +25,38 @@ class user extends Model{
         $password = md5($this->str.md5($password));
         return $password;
     }
-
     /**
      * 修改和添加数据整合
      */
-    private  function update_data(){
+    public  function update_data(){
         $post = $this->Post;
         /*判断是添加or修改*/
         $data = $post;
         if($post['id']){
             //$data['update_id'] = ;
+            $info = $this->model->set_map()->set_map()->one_find();
             $password = $this->encrypt_password( $data['password']);
-
+            if($info['password'] == $password){
+                unset($data['password']);
+            }else{
+                $data['password'] = $password;
+            }
             $data['update_time'] = time();
         }else{
             $data['add_time'] = time();
             $data['reg_ip'] =getIp();
             $data['password'] =$this->encrypt_password( $data['password']);
         }
-        $this->model->admin_sava($data);
-    }
+        $result = $this->model->admin_sava($data);
 
+    }
+    public function vali_data(){
+        $result = $this->model->vali_data();
+        if($result){
+            return  json_encode(array('info'=>false,'tips'=>'信息已被注册','url'=>''));
+        }else{
+            return  json_encode(array('info'=>true,'tips'=>'信息可以使用','url'=>''));
+        }
+    }
 
 }

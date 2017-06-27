@@ -8,33 +8,41 @@
 namespace app\model;
 use think\Model;
 class Admin extends Model{
-    private $field ;
-    private $where;
-    /*设置条件*/
-    private function set_where($where){
-        $this->$where = $where;
+    protected $field;
+    protected $and;
+    protected $or;
+    /*设置and条件*/
+     function set_and($and){
+        $this->and = $and;
+        return $this;
+    }
+    function set_or($or){
+        $this->or = $or;
         return $this;
     }
     /*设置查询条件*/
-    private function set_field($field){
+     function set_field($field){
         $this->field = $field;
         return $this;
     }
     /*添加or修改*/
-    private function  admin_sava($data){
+     function  admin_sava($data){
         $this->save($data);
     }
+
     /**验证某个值在某个字段里是否存在
      * 或者 统计个数
      * @param 字段名 $field
      * @param 验证的值 $value
      * @return 返回个数 int|string
      */
-    private function vali_data(){
-        $count =$this->where($this->where)->count($this->field);
+     function vali_data(){
+        $count =$this->where($this->and)->whereOr($this->or)->count($this->field);
         return $count;
     }
-    private function one_select(){
-        $find = $this->where($this->where)->field($this->field)->find();
+
+     function one_find(){
+        $find = $this->where($this->and)->whereOr($this->or)->field($this->field)->find();
+        return $find;
     }
 }
