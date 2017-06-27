@@ -8,26 +8,33 @@
 namespace app\model;
 use think\Model;
 class Admin extends Model{
-    private $str ='heizi';
-    private $Post ;
-    /*前提准备
-      获取提交变量
-    */
-    public function post($data){
-        $this->Post = $data;
+    private $field ;
+    private $where;
+    /*设置条件*/
+    private function set_where($where){
+        $this->$where = $where;
         return $this;
     }
-    public function  admin_add(){
-        $data = $this->Post;
-        $data['add_time'] = time();
-        $data['reg_ip'] =getIp();
-        $data['password'] =$this->encrypt_password( $data['password']);
+    /*设置查询条件*/
+    private function set_field($field){
+        $this->field = $field;
+        return $this;
+    }
+    /*添加or修改*/
+    private function  admin_sava($data){
         $this->save($data);
     }
-
-    /*加密密码*/
-    function encrypt_password($password=''){
-       $password = md5($this->str.md5($password));
-        return $password;
+    /**验证某个值在某个字段里是否存在
+     * 或者 统计个数
+     * @param 字段名 $field
+     * @param 验证的值 $value
+     * @return 返回个数 int|string
+     */
+    private function vali_data(){
+        $count =$this->where($this->where)->count($this->field);
+        return $count;
+    }
+    private function one_select(){
+        $find = $this->where($this->where)->field($this->field)->find();
     }
 }
