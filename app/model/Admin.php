@@ -27,7 +27,7 @@ class Admin extends Model{
     }
     /*添加or修改*/
      function  admin_sava($data){
-        $this->save($data);
+         $this->save($data);
     }
 
     /**验证某个值在某个字段里是否存在

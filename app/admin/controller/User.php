@@ -6,8 +6,6 @@
  * Time: 14:47
  */
 namespace app\admin\controller;
-use app\admin\controller\Base;
-use app\model\Admin;
 use think\Controller;
 use app\common;
 class  User extends  common{
