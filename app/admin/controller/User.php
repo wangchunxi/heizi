@@ -19,7 +19,7 @@ class  User extends  common{
     }
 
     public function index(){
-
+        return view();
     }
     public function info(){
         return view();

@@ -15,5 +15,6 @@
 define('APP_PATH', __DIR__ . '/../app/');
 define('__ADMIN_STYLE__','/static/admin');
 define('__ADMIN_LAYER__','/static/layer');
+define('__ADMIN_VALI__','/static/validform');
 // 加载框架引导文件
 require __DIR__ . '/../thinkphp/start.php';
