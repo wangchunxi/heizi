@@ -1,0 +1,11 @@
+<div >
+    <label class="layui-form-label">{$data.name}</label>
+    <div class="layui-input-block" >
+        <select class="layui-input-inline"  style="" lay-verify="required" name="{$data.submit_name}">
+            <option value="0">请选择</option>
+            {volist name="$data.option" id = "vo"}
+            <option value="{$vo.id}">{$vo.title}</option>
+            {/volist}
+        </select>
+    </div>
+</div>
