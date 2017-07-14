@@ -26,7 +26,7 @@ class Admin extends Model{
         return $this;
     }
     /*添加or修改*/
-     function  admin_sava($data){
+     function  add_sava($data){
          $this->save($data);
     }
 

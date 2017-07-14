@@ -6,14 +6,12 @@
  * Time: 14:08
  */
 namespace app\admin\controller;
-use app\admin\controller\Base;
 
 class Index extends  Base{
-//    function _initialize()
-//    {
-//    }
-
     public function index(){
       return view('index/index');
+    }
+    public function info(){
+        return view('index/info');
     }
 }

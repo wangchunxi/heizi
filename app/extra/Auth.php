@@ -41,7 +41,7 @@ class Auth{
         $authList = $this->getAuthList($uid); //获取用户需要验证的所有有效规则列表
         /*合并两个权限*/
         $authList = array_merge($this->_auth,$authList);
-        $auth_user = $this->check_url($authList,$url,$mode);
+      //  $auth_user = $this->check_url($authList,$url,$mode);
         return $auth_user;
     }
     //TODO:准备搬迁用户处理层
@@ -116,33 +116,33 @@ class Auth{
      * 进行URL验证
      * @param $authList
      * @param $url
-     */
-    function check_url($authList,$url,$mode='url'){
-        $arr_url= '';/*要验证的链接*/
-        $arr_auth =array();
-        /*全链接验证模式*/
-        if($mode == 'url' ){
-            $array = $this->assembly($url,$authList,3);
-            $arr_url = $array['arr'];
-            $arr_auth = $array['menu_arr'];
-        }
-        /*模块验证模式*/
-        if($mode == 'm'){
-            $array = $this->assembly('',$authList,1);
-            $arr_url = $url['m'];
-            $arr_auth =array_unique($array['menu_arr']);
-        }
-        /*模块+控制器模式*/
-        if($mode == 'm_c'){
-            $array = $this->assembly('',$authList,2);
-            $arr_url = $url['m'].'/'.$url['c'];
-            $arr_auth = array_unique($array['menu_arr']);
-        }
-        /*进行数据验证*/
-        if(in_array($arr_url,$arr_auth)){
-            return array('msg'=>1);
-        }
-        return  array('msg'=>-1,'url'=>$this->ck_url(),'info');//TODO:无权访问
-    }
+//     */
+//    function check_url($authList,$url){
+//        $arr_url= '';/*要验证的链接*/
+//        $arr_auth =array();
+//        /*全链接验证模式*/
+//        if($mode == 'url' ){
+//            $array = $this->assembly($url,$authList,3);
+//            $arr_url = $array['arr'];
+//            $arr_auth = $array['menu_arr'];
+//        }
+//        /*模块验证模式*/
+//        if($mode == 'm'){
+//            $array = $this->assembly('',$authList,1);
+//            $arr_url = $url['m'];
+//            $arr_auth =array_unique($array['menu_arr']);
+//        }
+//        /*模块+控制器模式*/
+//        if($mode == 'm_c'){
+//            $array = $this->assembly('',$authList,2);
+//            $arr_url = $url['m'].'/'.$url['c'];
+//            $arr_auth = array_unique($array['menu_arr']);
+//        }
+//        /*进行数据验证*/
+//        if(in_array($arr_url,$arr_auth)){
+//            return array('msg'=>1);
+//        }
+//        return  array('msg'=>-1,'url'=>$this->ck_url(),'info');//TODO:无权访问
+//    }
 
 }
