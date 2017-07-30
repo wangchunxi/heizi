@@ -18,11 +18,14 @@
 	<legend>导航详情</legend>
 	<form class="layui-form" id="form">
 		<div class="layui-form-item">
+			<?php
+				dump($view_plug);
+			?>
 			{volist name='$view_plug' id='vo'}
-			{:widget("admin/Webplug/".$vo['plug'],$vo['config'])}
+				{:widget("admin/Webplug/webplug",$vo['config'])}
 			{/volist}
 			<div class="layui-input-block">
-				<button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+				<a   href="javascript:; "  type="button"  class="layui-btn" lay-submit lay-filter="*">立即提交</a>
 				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 			</div>
 		</div>

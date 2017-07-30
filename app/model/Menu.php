@@ -46,7 +46,6 @@
             }else{
                 $result =  $this->where($this->and)->field($this->field)->select()->toArray();
             }
-          //  dump($result);
             return $result;
         }
 

@@ -1,121 +1,35 @@
-﻿{block name="include"}{include file="public:head" /}{/block}
-<body>
-    <div id="wrapper">
-        {block name="include"}{include file="public:nav" /}{/block}
-        <div id="page-wrapper" >
-            <div id="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                     <h2>Forms Page</h2>
-                        <h5>Welcome Jhon Deo , Love to see you back. </h5>
-                    </div>
-                </div>
-                <div class="row">
-                    <form role="form" class="demoform" action="{:Url('admin/User/update')}">
-                        <div class="form-group">
-                            <label>邮箱</label>
-                            <input class="form-control" type="text" name="username" placeholder="邮箱" datatype="e" nullmsg="请填写邮箱账号！"  errormsg="邮箱账号格式错误！" >
-                            <p class="help-block"></p>
-                        </div>
-                        <div class="form-group">
-                            <label>密码</label>
-                            <input class="inputxt form-control" name="password" type="password" placeholder="密码"  datatype="password"  nullmsg="请设置密码！" errormsg="密码范围在8~16位数字加字母！">
-                            <div class="Validform_checktip "></div>
-                        </div>
-                        <div class="form-group">
-                            <label>昵称</label>
-                            <input class="form-control" type="text" name="nickname" placeholder="昵称 " datatype="z2-4"  nullmsg="请填写昵称" errormsg="2到4个中文字符">
-                            <p class="Validform_checktip"></p>
-                        </div>
-                        <div class="form-group">
-                            <label>手机号</label>
-                            <input class="form-control inputxt" type="text" name="mobile"  placeholder="手机号" datatype="m"  nullmsg="请填写手机号！"  errormsg="手机号错误！">
-                            <p class="Validform_checktip"></p>
-                        </div>
-                        <div class="form-group">
-                            <label>权限组</label>
-                            <select class="form-control"  name="rule">
-                                <option>请选择</option>
-                            </select>
-                        </div>
-                        <button type="submit"  id="btn_sub" class="btn btn-primary">提交</button>
-                    </form>
-                </div>
-             <!-- /. PAGE INNER  -->
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>文章添加--layui后台管理模板</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    {block name="include"}
+    {include file="/public/head" /}
+    {/block}
+</head>
+<body class="childrenBody">
+<fieldset class="layui-elem-field">
+    <legend>导航详情</legend>
+    <form class="layui-form" id="form">
+        <div class="layui-form-item">
+            {volist name='$view_plug' id='vo'}
+            {:widget("admin/Webplug/webplug",$vo['config'])}
+            {/volist}
+            <div class="layui-input-block">
+                <a   href="javascript:; "  type="button"  class="layui-btn" lay-submit lay-filter="*">立即提交</a>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
-         <!-- /. PAGE WRAPPER  -->
         </div>
-     <!-- /. WRAPPER  -->
-    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-    <!-- JQUERY SCRIPTS -->
+    </form>
+</fieldset>
 </body>
 <script>
-    $(".demoform").Validform({
-        btnSubmit:"#btn_sub",
-        tiptype: 4,
-        ajaxPost:true,
-        datatype: {
-            "z2-4": /^[\u4E00-\u9FA5\uf900-\ufa2d]{2,4}$/,
-            "password": /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/,
-            /*邮箱验证*/
-            "e": function (gets) {
-                var url = "{:Url('admin/User/vali_data')}";
-                var email = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-                var data = new Array();
-                data [0] = gets;
-                data [1] = 'username';
-                if (email.test(gets)) {
-                    var status = ajax_validform(url, data);
-                    if (status.status != true) {
-                        return status.info;
-                    } else {
-                        return true;
-                    }
-                }
-                return false;
-            },
-            /*手机验证*/
-            "m": function (gets) {
-                var url = "{:Url('admin/User/vali_data')}";
-                var mobile = /^1[34578]\d{9}$/;
-                var data = new Array();
-                data [0] = gets;
-                data [1] = 'mobile';
-                if (mobile.test(gets)) {
-                    var status = ajax_validform(url, data);
-                    if (status.info != true) {
-                        return status.tips;
-                    } else {
-                        return true;
-                    }
-                }
-                return false;
-            },
-        },
-        callback: function (data) {
-            data=eval('('+data+')');
-            console.log(data.status); console.log(data.info);
-            if(data.status == false){
-                alert(1);
-                layer.msg('wangbadan');
-            }else{
-
-            }
-        }
-    });
-    function ajax_validform(url,data){
-        var field = data[1];  var value = data[0];
-        var date;
-        $.ajax({
-            type: "POST",
-            url: url,
-            async:false,
-            data:"field="+field+"&value="+value,
-            success: function(msg){
-                date=eval('('+msg+')');
-            }
-        });
-        return date;
-    }
+    var submit_url = "{$submit_url}";
 </script>
 </html>

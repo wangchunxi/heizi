@@ -46,7 +46,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+                <a   href="javascript:; "  type="button"  class="layui-btn" lay-submit lay-filter="*">立即提交</a>
                 <a  href="javascript:; "  type="button" class="layui-btn layui-btn-primary " onclick="add_plug()">添加</a>
             </div>
         </div>
@@ -61,7 +61,7 @@
         var html =" <div class='layui-form-item' >";
         html +=   html_plug;
         html += "</div>";
-        console.log(html);
+        //console.log(html);
         $('#web_plug').append(html);
         var form = layui.form();
         form.render('select');

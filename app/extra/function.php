@@ -64,37 +64,46 @@
      * @param 返回的数据$info_data
      * @param 跳转的链接$url
      */
-    function ajax_return($status=false,$info='未提供提示语句',$info_data='',$url=''){
-        return json_encode(array('status'=>$status,'info'=>$info,'info_data'=>$info_data,'url'=>$url));
+    function ajax_return($status=false,$info='未提供提示语句',$info_data='',$url='',$ajax_status=true){
+        if($ajax_status == true){
+            return json_encode(array('status'=>$status,'info'=>$info,'info_data'=>$info_data,'url'=>$url));
+        }
+        return array('status'=>$status,'info'=>$info,'info_data'=>$info_data,'url'=>$url);
     }
 
     /*
      * 用于option转换统一的名字方便页面输出
      */
     function convert_array($data=array(),$old_field_title,$new_field_new='title',$old_field_value='id',$new_field_value='id'){
-        if(empty($data) || empty($old_field_title) || empty($new_field_new) ){
-            return ajax_return(false,'参数未传递完整请检查第1、4、5参数');
-        }
-        if(!is_array($data)){
-            return ajax_return(false,'第一个参数必定为数组');
-        }
-        $new_array = array();
-        foreach($data as $k=>$v){
-            $new_array[$k][$new_field_value] = $v[$old_field_value];
-            $new_array[$k][$new_field_new] = $v[$old_field_title];
-        }
-        return $new_array;
+            if(empty($data) || empty($old_field_title) || empty($new_field_new) ){
+                exception('参数未传递完整请检查第1、4、5参数');
+            }
+            if(!is_array($data)){
+                exception('第一个参数必定为数组');
+            }
+            $new_array = array();
+            foreach($data as $k=>$v){
+                $new_array[$k][$new_field_value] = $v[$old_field_value];
+                $new_array[$k][$new_field_new] = $v[$old_field_title];
+            }
+            return $new_array;
     }
 
     //形成树状格式
-    function arr2tree($tree, $rootId = 0,$level=1) {
+    function arr2tree($tree, $rootId = 0,$level=1,$ico='') {
         $return = array();
         foreach($tree as $leaf) {
             if($leaf['pid'] == $rootId) {
                 $leaf["level"] = $level;
+                if($ico && $rootId!=0){
+                    $leaf['title'] = $ico.$leaf['title'];
+                }
+                if($rootId == 0){
+                    $ico = str_replace('&nbsp;','',$ico);
+                }
                 foreach($tree as $subleaf) {
                     if($subleaf['pid'] == $leaf['id']) {
-                        $leaf['children'] = arr2tree($tree, $leaf['id'],$level+1);
+                        $leaf['children'] = arr2tree($tree, $leaf['id'],$level+1,$ico='&nbsp;&nbsp;'.$ico);
                         break;
                     }
                 }
@@ -102,4 +111,55 @@
             }
         }
         return $return;
+    }
+
+    /**
+     * 配置页面数组
+     * @param 配置数组 $web_config
+     * @param 页面格式 $view_content
+     * @return mixed
+     */
+    function set_config_array($web_config,$view_content){
+        /*生成插件配置数组*/
+        foreach($web_config as $k=>$v){
+            $config[$k] =  create_array($v);
+        }
+        /*进行组装生成完整页面插件转换json*/
+        foreach($view_content as $k=>$v){
+            foreach($v as $key=>$val){
+                $view_plug[$key]['config'] =json_encode(array('config'=>$config[$k],'plug'=>$val));
+            }
+        }
+        return $view_plug;
+    }
+    function verify_data($data){
+        if(empty($data) || isset($data)){
+            exception("{$data}参数为空");
+        }
+        return $data;
+    }
+
+//    function isset_exception($data){
+//     //   dump($data);
+//        if($data['status'] === false){
+//          return  exception($data['tips']);
+//        }
+//        return $data['info'];
+//    }
+//    /**
+//     * 判断返回是否是true，否则报错
+//     */
+//    function is_status_true($data){
+//        $data = json_decode($data);
+//        if($data['status'] ==  false){
+//        }
+//    }
+    function recursion_web($data,$web=''){
+        foreach($data as $k=>$vo){
+            $web.="  <option value='$vo[id]'>$vo[title]</option>";
+            if(isset($vo['children'])){
+                $web.= recursion_web($vo,$web);
+            }
+        }
+        return $web;
     }

@@ -5,6 +5,14 @@
             <option value="0">请选择</option>
             {volist name="$data.option" id = "vo"}
             <option value="{$vo.id}">{$vo.title}</option>
+            <?php
+              //  $children_array =
+                if(isset($vo['children'])){
+            ?>
+                {:recursion_web($vo['children'])};
+            <?php
+                }
+            ?>
             {/volist}
         </select>
     </div>
