@@ -9,7 +9,7 @@
 // | Author: luofei614 <weibo.com/luofei614>　
 // +----------------------------------------------------------------------
 namespace Auth;
-use app\admin\logic\user;
+use app\admin\model\Admin;
 
 class Auth{
 
@@ -32,7 +32,7 @@ class Auth{
     );
     function __construct()
     {
-        $this->user = new user();
+        $this->user = new Admin();
     }
 
     /**

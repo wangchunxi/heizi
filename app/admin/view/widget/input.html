@@ -1,0 +1,8 @@
+<div  style="margin: 20px 0px 10px 0px">
+    <label class="layui-form-label">{$data.name}</label>
+    <div class="layui-input-block">
+        <input type="{$data.type}" name="{$data.submit_name}" lay-verify="{$data.verify}" autocomplete="off" class="layui-input" lay-verify="required"
+               value="<?php  echo isset($data['value']) ? $data['value']: '';  ?>"
+        >
+    </div>
+</div>

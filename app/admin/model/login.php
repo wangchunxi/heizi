@@ -26,6 +26,7 @@
 //            }
             /*用账号进行查询*/
             $result = $this->model->find_user_Info('',$post['username'],'password,username,id,login_time,login_ip,status');
+        //    print_r( $result);
             /*未查询到提示账号不存在*/
             if(!$result){
                 exception('账号不存在');
@@ -56,6 +57,7 @@
                 $data['last_login_ip'] = $result['login_ip'];
                 session('last_login_ip',$result['login_ip']);
             }
+           // print_r($data);
             $this->model->set_post($data)->save_login();
             /*返回数据*/
             return ajax_return(true,'登陆成功!','',url('admin/index/index'));

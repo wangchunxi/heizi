@@ -1,0 +1,14 @@
+<?php
+    if($type =='head'){
+?>
+    {volist name = "Button" id = "vo"}
+        <!--<button class="{$vo.css}">{$vo.menu_name}</button>-->
+        <a class="layui-btn {$vo.class}" href="javascript:;">{$vo.menu_name}</a>
+    {/volist}
+<?php
+    }else{
+?>
+    <button class="layui-btn-mini">迷你按钮</button>
+<?php
+    }
+?>

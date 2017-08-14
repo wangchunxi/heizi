@@ -7,6 +7,8 @@
      */
     namespace app\admin\controller;
     use app\admin\model\Menu ;
+    use Plug\Plug;
+
     class  Nav extends  Base{
         private $model;
         private $post;
@@ -28,16 +30,12 @@
         /*导航详情页*/
         public function info(){
             try{
-                $view = db('view')->where('id = 1')->field('content')->find();
-                /*配置数组*/
-                $view_plug = array();
+                $plug = new Plug();
                 /*获取配置*/
-                $view_plug = $this->model->get_view($view)->set_config('info');
-
-                /*页面输出*/
-                $this->assign('submit_url',Url('update'));
-                $this->assign('view_plug',$view_plug);
-                return view('info');
+                $view_plug = $plug->index('Set_Menu_info');
+                //dump($view_plug);exit();
+                $request_url['submit_url'] = url('update');
+                return $this->Set_ListPage($view_plug,"public/info",$request_url);
             }catch( \Exception $e){
                 $this->error($e->getMessage());
             }

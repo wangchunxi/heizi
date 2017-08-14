@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:61:"/home/wwwroot/heizi/public/../app/admin/view/index/index.html";i:1500168805;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:61:"/home/wwwroot/heizi/public/../app/admin/view/index/index.html";i:1502636690;}*/ ?>
 ﻿<!DOCTYPE html>
 <html>
 <head>
@@ -24,33 +24,14 @@
 			<a href="#" class="logo">layui后台管理</a>
 			<!-- 显示/隐藏菜单 -->
 			<a href="javascript:;" class="iconfont hideMenu icon-menu1"></a>
-			<!-- 搜索 -->
-			<div class="layui-form component">
-				<select name="modules" lay-verify="required" lay-search="">
-					<option value="">直接选择或搜索选择</option>
-					<option value="1">layer</option>
-					<option value="2">form</option>
-					<option value="3">layim</option>
-					<option value="4">element</option>
-					<option value="5">laytpl</option>
-					<option value="6">upload</option>
-					<option value="7">laydate</option>
-					<option value="8">laypage</option>
-					<option value="9">flow</option>
-					<option value="10">util</option>
-					<option value="11">code</option>
-					<option value="12">tree</option>
-					<option value="13">layedit</option>
-					<option value="14">nav</option>
-					<option value="15">tab</option>
-					<option value="16">table</option>
-					<option value="17">select</option>
-					<option value="18">checkbox</option>
-					<option value="19">switch</option>
-					<option value="20">radio</option>
-				</select>
-				<i class="layui-icon">&#xe615;</i>
-			</div>
+			<!--<div style="float: left;">-->
+			<!--<ul class="layui-nav" lay-filter="">-->
+				<!--<li class="layui-nav-item"><a href="">最新活动</a></li>-->
+				<!--<li class="layui-nav-item layui-this"><a href="">产品</a></li>-->
+				<!--<li class="layui-nav-item"><a href="">大数据</a></li>-->
+				<!--<li class="layui-nav-item"><a href="">社区</a></li>-->
+			<!--</ul>-->
+			<!--</div>-->
 			<!-- 天气信息 -->
 			<div class="weather" pc>
 				<div id="tp-weather-widget"></div>
@@ -130,6 +111,7 @@
 			</div>
 		</div>
 	</div>
+	<input type="checkbox" name="yyy" lay-skin="switch" lay-text="ON|OFF" checked>
 	<!-- 底部 -->
 	<div class="layui-footer footer">
 		<p>copyright @2017 请叫我马哥　　<a onclick="donation()" class="layui-btn layui-btn-danger l·ayui-btn-small">捐赠作者</a></p>

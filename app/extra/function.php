@@ -47,16 +47,7 @@
      * @param 旧数组 $post 要整合的数组
      * @return mixed 返回新数组
      */
-    function is_add($id,$post){
-        if($id>0){
-            $post['update_time'] = time();
-            $post['update_id'] = '';
-        }else{
-            $post['add_time'] = time();
-            $post['add_id'] = '';
-        }
-        return $post;
-    }
+
 
     /**
      * @param 返回的状态$status
@@ -132,6 +123,7 @@
         }
         return $view_plug;
     }
+
     function verify_data($data){
         if(empty($data) || isset($data)){
             exception("{$data}参数为空");
@@ -139,27 +131,61 @@
         return $data;
     }
 
-//    function isset_exception($data){
-//     //   dump($data);
-//        if($data['status'] === false){
-//          return  exception($data['tips']);
-//        }
-//        return $data['info'];
-//    }
-//    /**
-//     * 判断返回是否是true，否则报错
-//     */
-//    function is_status_true($data){
-//        $data = json_decode($data);
-//        if($data['status'] ==  false){
-//        }
-//    }
+    /**option选项循环输出子集
+     * @param $data
+     * @param string $web
+     * @return string
+     */
     function recursion_web($data,$web=''){
-        foreach($data as $k=>$vo){
-            $web.="  <option value='$vo[id]'>$vo[title]</option>";
-            if(isset($vo['children'])){
-                $web.= recursion_web($vo,$web);
+//        echo "<--start--> \n";
+//        dump($data);
+//        echo "<--end--> \n";
+        foreach($data as $k=>$vo) {
+//            echo "<--start.vo--> \n";
+//            dump($vo);
+//            echo "<--end.vo--> \n";
+//            echo $vo['id'];
+            $web.="<option value='$vo[id]'>$vo[title]</option>";
+            if (isset($vo['children'])) {
+                $web= recursion_web($vo['children'],$web);
             }
         }
         return $web;
+    }
+
+    /**
+     * 判断添加或者修改的偷懒函数
+     */
+    function is_AddUpdate($id,$post=array()){
+        if(!empty($id)){
+            $post['update_time'] = time();
+            /*修改人*/
+            $post['update_id'] = session('uid');
+        }else{
+            $post['add_time'] = time();
+            //添加人
+            $post['add_id'] = session('uid');
+        }
+        return $post;
+    }
+    function get_pant_file($URl =''){
+        /**
+         * 【php获取目录中的所有文件名】
+         */
+        //1、先打开要操作的目录，并用一个变量指向它
+        //打开当前目录下的目录pic下的子目录common。
+        $handler = opendir($URl);
+        //2、循环的读取目录下的所有文件
+        //其中$filename = readdir($handler)是每次循环的时候将读取的文件名赋值给$filename，为了不陷于死循环，所以还要让$filename !== false。一定要用!==，因为如果某个文件名如果叫’0′，或者某些被系统认为是代表false，用!=就会停止循环*/
+        while( ($filename = readdir($handler)) !== false ) {
+            //3、目录下都会有两个文件，名字为’.'和‘..’，不要对他们进行操作
+            if($filename != "." && $filename != ".."){
+                //4、进行处理
+                //这里简单的用echo来输出文件名
+                $file[]=str_replace( '.' . pathinfo($filename,PATHINFO_EXTENSION), '',$filename );
+            }
+        }
+////5、关闭目录
+        closedir($handler);
+        return $file;
     }

@@ -28,14 +28,19 @@
         public function add(){
             return view('info');
         }
+        public function edit(){
+            return view('info');
+        }
         /*详情页*/
         public function info(){
-            $webplug =  new Webplug();
-            $plug = get_class_methods(get_class($webplug));
+            $url = APP_PATH.'/admin/view/widget';
+            $id = input('id');
+            $plug =  get_pant_file($url);
             $this->assign('plug',$plug);
             $this->assign('submit_url',Url('update'));
             return view();
         }
+
         /*添加修改提交页*/
         public function update(){
             if(request()->isPost()){
@@ -54,14 +59,12 @@
          */
         public function  newsList(){
             try{
-                $config = $this->model->get_list_conf();
-                //$this->assign('config',$config);
+                $config = $this->model->get_list_conf("index_config");
                 $request_url['get_list'] =  url('getlist');
-              return  $this->Set_ListPage($config,"public/table_list",$request_url);
+                return  $this->Set_ListPage($config,"public/table_list",$request_url);
             }catch( \Exception $e){
                 $this->error($e->getMessage());
             }
-         //   return view('newsList');
         }
 
         /**
@@ -70,10 +73,14 @@
          */
         public function getlist(){
             try{
-                $result = $this->model->set_map($this->post)->getList();
+                /*查询字段名称*/
+                $field = 'a.id,a.view_name as title,a.add_id,a.add_time,a.status,b.username';
+                $page = input('page');
+                $result = $this->model->set_post($this->post)->set_field($field)->set_page($page)->getList();
+                $request_url['edit'] = '/admin/view/info/id/';
+                return $this->Set_ListPage($result,"public/table_list_cp",$request_url);
             }catch( \Exception $e){
               return ajax_return(false,$e->getMessage());
             }
-            return ajax_return(true,'返回成功',$result);
         }
     }

@@ -39,10 +39,73 @@ class  Base extends  common{
             $this->error($e->getMessage());
         }
     }
-    function Set_ListPage($data,$view ='public/table_list',$request_url){
+
+    /**
+     * 公共页面展示
+     * @param $data 要展示的配置
+     * @param string $view 要展示的页面文件
+     * @param string $request_url 要展示的页面文件里的链接
+     * @return \think\response\View 返回视图
+     */
+    function Set_ListPage($data,$view ='',$request_url='',$data_arr=''){
+        $menu_id = input('menu_id');
+        $Button = new \Button();
+        if(empty($view)){
+            $view = 'public/table_list';
+        }
+        if($menu_id){
+            if($view == 'public/table_list'){
+                /*头部按钮查询*/
+                $Button = $Button->Set_location(1)->Set_menu_id($menu_id)->Set_Uid(session('uid'))->dispose();
+                if($Button){
+                    $Button_arr['Button'] = $Button; $Button_arr['type'] = 'head';
+                }
+            }
+            if($view == "public/table_list_cp"){
+                /*列表的数据查询*/
+                $Button = $Button->Set_location(2)->Set_menu_id($menu_id)->Set_Uid(session('uid'))->dispose();
+                if($Button){
+                    $Button_arr['Button'] = $Button; $Button_arr['type'] = 'list';
+                }
+            }
+        }
+        if($data_arr){
+            $this->assign('data',$data_arr);
+        }
+        $Button_arr = isset($Button_arr) ?$Button_arr : '';
+        $this->assign('Button_arr',$Button_arr);
         $this->assign('config',$data);
         $this->assign('request_url',$request_url);
         return view($view);
+    }
+
+    /**简单的状态位改变
+     * @param $table 表名
+     * @param $status 要改变的后的状态值
+     * @param $field_name 要改变的状态位
+     * @param $handle   属于哪种操作类型
+     * @return array|string 返回 true| false
+     * @throws \think\Exception
+     */
+    function Change_status(){
+        $table=input('table');                  $status = input('status');
+        $field_name=input('field_name');        $handle = input('handle');
+        $data['id'] = input('id');
+        $data_status = db($table)->where("id",$data['id'])->field($field_name)->find();
+        if($data_status){
+            if($data_status[$field_name] == 1){
+                $status  = 0;
+            }
+            if($data_status[$field_name] == 0){
+                $status = 1;
+            }
+        }
+        $data[$field_name] = $status;
+        $result = db($table)->update($data);
+        if(!$result){
+            return ajax_return(false,'操作失败');
+        }
+        return ajax_return(true,'操作成功',$status);
     }
 
 }

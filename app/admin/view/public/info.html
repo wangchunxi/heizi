@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>文章添加--layui后台管理模板</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    {block name="include"}
+    {include file="/public/head" /}
+    {/block}
+    <script type="text/javascript" src="{$Think.__ADMIN_LAYER__}/js/info.js"></script>
+    <script type="text/javascript" src="{$Think.__ADMIN_LAYER__}/js/spark-md5.min.js"></script>
+</head>
+<body class="childrenBody">
+<fieldset class="layui-elem-field">
+    <legend>导航详情</legend>
+    <form class="layui-form" id="form">
+        <div class="layui-form-item">
+            {volist name='$config' id='vo'}
+            {:widget("admin/Webplug/webplug",$vo['config'])}
+            {/volist}
+            <div class="layui-input-block">
+                <a   href="javascript:; "  type="button"  class="layui-btn" lay-submit lay-filter="*">立即提交</a>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</fieldset>
+</body>
+<script>
+    var submit_url = "{$request_url.submit_url}";
+</script>
+</html>

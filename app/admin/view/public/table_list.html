@@ -11,37 +11,53 @@
     <meta name="format-detection" content="telephone=no">
     <script>
         var get_list = "{$request_url.get_list}";
+        var add_url = "{$request_url.add_url}";
     </script>
     {block name="include"}
     {include file="/public/head" /}
     {/block}
+    <link rel="stylesheet" href="{$Think.__ADMIN_LAYER__}/css/List.css" media="all" />
+    <script type="text/javascript" src="{$Think.__ADMIN_LAYER__}/js/List.js"></script>
+
 </head>
 <body class="childrenBody">
-<blockquote class="layui-elem-quote news_search">
-    <div class="layui-inline">
-        <div class="layui-input-inline">
-            <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
-        </div>
-        <a class="layui-btn search_btn">查询</a>
-    </div>
-    <div class="layui-inline">
-        <a class="layui-btn layui-btn-normal newsAdd_btn">添加文章</a>
-    </div>
-    <div class="layui-inline">
-        <a class="layui-btn recommend" style="background-color:#5FB878">推荐文章</a>
-    </div>
-    <div class="layui-inline">
-        <a class="layui-btn audit_btn">审核文章</a>
-    </div>
-    <div class="layui-inline">
-        <a class="layui-btn layui-btn-danger batchDel">批量删除</a>
-    </div>
-</blockquote>
-{volist name='$config' id='vo'}
-{:widget("admin/Webplug/webplug",$vo['config'])}
-{/volist}
-<div id="page">
+    <form class="layui-form" action="">
+        <blockquote class="layui-elem-quote news_search">
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
+                </div>
+                <a class="layui-btn search_btn">查询</a>
+            </div>
+            <div class="layui-inline" style=" float: right;">
+                <?php
+                    if(!empty($Button_arr)){
+                       $Button_arr = json_encode($Button_arr);
+                ?>
+                    {:widget("admin/Webplug/Button",$Button_arr)}
+                <?php
+                    }
+                ?>
+            </div>
+        </blockquote>
+        <div class="layui-form news_list">
+            <table class="layui-table">
+                <!--  <colgroup>
+                      <col>
+                  </colgroup>-->
+                <thead>
+                    {volist name='$config' id='vo'}
+                        {:widget("admin/Webplug/webplug",$vo['config'])}
+                    {/volist}
+                </thead>
+                <tbody class="news_content">
 
-</div>
+                </tbody>
+            </table>
+        </div>
+        <div id="page">
+
+        </div>
+    </form>
 </body>
 </html>

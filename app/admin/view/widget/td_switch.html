@@ -1,0 +1,14 @@
+<td>
+    <input type="checkbox" name="show" lay-skin="switch" lay-text="{$data.if}|{$data.else}"
+           lay-filter="isShow"  data-field = "{$data.title}" data-status = "{$vo[$data['title']]}"
+           class="onchage{$vo.id}" value ="{$vo.id}"  data-tab="{$data.table}" data-url ="{:url('Change_status')}"
+           <?php
+                if($vo[$data['title']] == 1){
+           ?>
+                checked
+            <?php
+                }
+            ?>
+           data-tab="{$data.table}" data-url ="{:url('Change_status')}"
+    >
+</td>
