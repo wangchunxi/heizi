@@ -44,6 +44,19 @@ class Attachment extends Base
 
     }
     /**
+     *统一上传附件
+     */
+    public function upload_file(){
+        return json_encode(array("code"=>0));
+    }
+
+    /**
+     * 验证图片md5
+     */
+    public function verify_image(){
+
+    }
+    /**
      * 获取配置参数
      */
     protected  function Get_sys($page_name='',$data=array()){
@@ -61,6 +74,8 @@ class Attachment extends Base
                     $data['config'] =$Plug->index('Set_Watermark_Info');
                 }
                 $data['request_url']['submit_url'] = url('update');
+                $data['request_url']['upload_file'] = url('upload_file');
+                $data['request_url']['verify_image'] = url('verify_image');
                 break;
             case 'getlist':
                 $data['config']= $Plug->index('Set_User_TabBottom');
@@ -68,12 +83,6 @@ class Attachment extends Base
                 break;
         }
         return $data;
-    }
-    /**
-     *
-     */
-    public  function upload_file(){
-
     }
 
 }

@@ -160,7 +160,8 @@
             $array =array(
                 array('水印图名称','group_name','text','required','plug'=>'input','value'=>'name'),
                 array('上传','group_name','text','','plug'=>'upload_one','value'=>'group_name'),
-                array('','id','hidden','','plug'=>'input','value'=>'id')
+                array('','id','hidden','','plug'=>'input','value'=>'id'),
+                array('','class','hidden','','plug'=>'input','value'=>'')
             );
             return $array;
         }

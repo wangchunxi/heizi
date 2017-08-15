@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:60:"/home/wwwroot/heizi/public/../app/admin/view/view/index.html";i:1502672109;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:60:"/home/wwwroot/heizi/public/../app/admin/view/view/index.html";i:1502672318;}*/ ?>
 <script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/js/spark-md5.min.js"></script>
 <script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/js/jq1.9.js"></script>
 <div>
@@ -16,7 +16,7 @@
 
   function processFiles(files) {
     var file = files[0];
-    console.log(file);
+    //console.log(file);
 
     var reader = new FileReader();
     reader.onload = function (e) {

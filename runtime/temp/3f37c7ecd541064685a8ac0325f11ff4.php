@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/info.html";i:1502672557;s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/head.html";i:1502659999;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/info.html";i:1502749274;s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/head.html";i:1502659999;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,5 +37,7 @@
 </body>
 <script>
     var submit_url = "<?php echo $request_url['submit_url']; ?>";
+    var upload_file = "<?php echo !empty($request_url['upload_file'])?$request_url['upload_file']:''; ?>"
+    var verify_image = "<?php echo !empty($request_url['verify_image'])?$request_url['verify_image']:''; ?>"
 </script>
 </html>
