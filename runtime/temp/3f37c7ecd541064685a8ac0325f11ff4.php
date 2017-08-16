@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/info.html";i:1502749274;s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/head.html";i:1502659999;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/info.html";i:1502860766;s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/head.html";i:1502817217;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,16 +14,16 @@
     <link rel="stylesheet" href="<?php echo __ADMIN_LAYER__; ?>/layui/css/layui.css" media="all" />
 <script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/layui/layui.js"></script>
 <script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/js/jq1.9.js"></script>
+<script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/js/info.js"></script>
 
 
     
-    <script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/js/info.js"></script>
     <script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/js/spark-md5.min.js"></script>
 </head>
 <body class="childrenBody">
 <fieldset class="layui-elem-field">
-    <legend>导航详情</legend>
-    <form class="layui-form" id="form">
+    <legend><?php echo $menu_name['menu_name']; ?></legend>
+    <form class="layui-form" id="form" method="post">
         <div class="layui-form-item">
             <?php if(is_array($config) || $config instanceof \think\Collection || $config instanceof \think\Paginator): $i = 0; $__LIST__ = $config;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
             <?php echo widget("admin/Webplug/webplug",$vo['config']); endforeach; endif; else: echo "" ;endif; ?>

@@ -165,4 +165,36 @@
             );
             return $array;
         }
+        /**附件水印图修改
+         * @return array
+         */
+        function Set_Purchase_TabTop(){
+            $array =array(
+                array('序号'),
+                array('货物名称'),
+                array('货物规格'),
+                array('货物型号'),
+                array('条形编码'),
+                array('数量'),
+                array('单价'),
+                array('金额'),
+                array('最后更新时间'),
+                array('操作')
+            );
+            return $array;
+        }
+        /**
+         * 附件水印图详情页
+         */
+        function Set_Purchase_Info(){
+            $array =array(
+                array('货物名称','goods_name','text','required','plug'=>'input','value'=>'goods_name'),
+                array('货物规格','goods_specification','text','required','plug'=>'input','value'=>'goods_specification'),
+                array('货物型号','goods_version','text','required','plug'=>'input','value'=>'goods_version'),
+                array('条形码','shape_code','text','','plug'=>'input','value'=>'shape_code'),
+                array('货物单价','goods_pice','text','','plug'=>'input','value'=>'goods_pice'),
+                array('','id','hidden','','plug'=>'input','value'=>'id'),
+            );
+            return $array;
+        }
     }

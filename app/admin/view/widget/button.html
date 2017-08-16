@@ -3,7 +3,10 @@
 ?>
     {volist name = "Button" id = "vo"}
         <!--<button class="{$vo.css}">{$vo.menu_name}</button>-->
-        <a class="layui-btn {$vo.class}" href="javascript:;">{$vo.menu_name}</a>
+        <a
+                class="layui-btn" id="head_button"  href="javascript:;"  data-opentype="{$vo.class}"
+                data-name="{$vo.menu_name}" data-url="<?php echo Url('/'.$vo['url'].'/menu_id/'.$vo['id']);?>"
+        >{$vo.menu_name}</a>
     {/volist}
 <?php
     }else{

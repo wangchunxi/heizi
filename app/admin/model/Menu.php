@@ -24,9 +24,11 @@
         /**
          *
          */
-        function set_map($data){
+        function set_map($data=array()){
             $map['status'] = 1;
-            $this->map = $map;
+            $map_arr = array_merge($map,$data);
+           // dump($map_arr);
+            $this->map = $map_arr;
             return $this;
         }
         function set_fied($fied){
@@ -180,5 +182,11 @@
             }
      //       dump($map);
             return $data;
+        }
+        function get_menu_info(){
+            $map = $this->map;
+            $field= $this->fied;
+            $result = $this->where($map)->field($field)->find();
+            return $result;
         }
     }

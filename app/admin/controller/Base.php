@@ -6,6 +6,7 @@
  * Time: 10:23
  */
 namespace app\admin\controller;
+use app\admin\model\Menu;
 use Auth\Auth;
 use think\Controller;
 use app\common;
@@ -57,6 +58,7 @@ class  Base extends  common{
             if($view == 'public/table_list'){
                 /*头部按钮查询*/
                 $Button = $Button->Set_location(1)->Set_menu_id($menu_id)->Set_Uid(session('uid'))->dispose();
+                //dump($Button);
                 if($Button){
                     $Button_arr['Button'] = $Button; $Button_arr['type'] = 'head';
                 }
@@ -68,6 +70,10 @@ class  Base extends  common{
                     $Button_arr['Button'] = $Button; $Button_arr['type'] = 'list';
                 }
             }
+           $menu_name =  (new Menu())->set_map($map = array('id'=>$menu_id,'status'=>1))->set_fied('menu_name')->get_menu_info();
+        }
+        if($menu_name){
+            $this->assign('menu_name',$menu_name);
         }
         if($data_arr){
             $this->assign('data',$data_arr);

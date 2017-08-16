@@ -47,6 +47,8 @@ class Attachment extends Base
      *统一上传附件
      */
     public function upload_file(){
+        dump(input('post.'));
+        dump($_FILES);
         return json_encode(array("code"=>0));
     }
 
@@ -54,7 +56,7 @@ class Attachment extends Base
      * 验证图片md5
      */
     public function verify_image(){
-
+        return json_encode(array("code"=>1));
     }
     /**
      * 获取配置参数

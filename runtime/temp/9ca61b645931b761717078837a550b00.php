@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/home/wwwroot/heizi/public/../app/admin/view/nav/navlist.html";i:1501316787;s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/head.html";i:1501810562;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:61:"/home/wwwroot/heizi/public/../app/admin/view/nav/navlist.html";i:1502848280;s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/head.html";i:1502817217;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,8 +11,8 @@
   
   <link rel="stylesheet" href="<?php echo __ADMIN_LAYER__; ?>/layui/css/layui.css" media="all" />
 <script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/layui/layui.js"></script>
-<script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/js/public.js"></script>
 <script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/js/jq1.9.js"></script>
+<script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/js/info.js"></script>
 
 
   
@@ -96,7 +96,7 @@
 <script>
   var add_url = "<?php echo Url('add'); ?>"
 layui.use(['element', 'layer'], function(){
-  var element = layui.element();
+  var element = layui.element;
   var layer = layui.layer;
   //监听折叠
   element.on('collapse(test)', function(data){

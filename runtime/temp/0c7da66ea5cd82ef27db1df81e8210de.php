@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:67:"/home/wwwroot/heizi/public/../app/admin/view/public/table_list.html";i:1502615317;s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/head.html";i:1502659999;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:67:"/home/wwwroot/heizi/public/../app/admin/view/public/table_list.html";i:1502860746;s:61:"/home/wwwroot/heizi/public/../app/admin/view/public/head.html";i:1502817217;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="<?php echo __ADMIN_LAYER__; ?>/layui/css/layui.css" media="all" />
 <script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/layui/layui.js"></script>
 <script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/js/jq1.9.js"></script>
+<script type="text/javascript" src="<?php echo __ADMIN_LAYER__; ?>/js/info.js"></script>
 
 
     

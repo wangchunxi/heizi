@@ -21,7 +21,10 @@
         }
 
         public function index(){
-            return view();
+            /*获取配置*/
+            $data = $this->Get_sys('index',array());
+            /*页面输出*/
+            return  $this->Set_ListPage($data['config'],"public/table_list",$data['request_url']);
         }
         public function add(){
             return  $this->info();
@@ -30,12 +33,8 @@
         /*导航详情页*/
         public function info(){
             try{
-                $plug = new Plug();
-                /*获取配置*/
-                $view_plug = $plug->index('Set_Menu_info');
-                //dump($view_plug);exit();
-                $request_url['submit_url'] = url('update');
-                return $this->Set_ListPage($view_plug,"public/info",$request_url);
+                $data = $this->Get_sys('info');
+                return $this->Set_ListPage($data['config'],"public/info",$data['request_url']);
             }catch( \Exception $e){
                 $this->error($e->getMessage());
             }
@@ -66,5 +65,32 @@
 
         public function navlist(){
             return view();
+        }
+
+        /**
+         * 获取配置参数
+         */
+        protected  function Get_sys($page_name='',$data=array()){
+            $Plug = new Plug();
+            switch($page_name){
+                case 'index':
+                    $data['config'] = $Plug->Set_TabTop(1)->index('Set_User_TabTop');
+                    $data['request_url']['get_list'] =  url('getlist');
+                    $data['request_url']['add_url'] = url('add');
+                    break;
+                case 'info':
+                    if($data){
+                        $data['config'] =$Plug->Set_Value($data)->index('Set_Menu_info');
+                    }else{
+                        $data['config'] =$Plug->index('Set_Menu_info');
+                    }
+                    $data['request_url']['submit_url'] = url('update');
+                    break;
+                case 'getlist':
+                    $data['config']= $Plug->index('Set_User_TabBottom');
+                    $data['request_url']['edit'] = '/admin/User/info/id/';
+                    break;
+            }
+            return $data;
         }
     }

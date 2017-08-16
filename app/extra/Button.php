@@ -52,7 +52,7 @@
          */
         function get_page(){
             $menu_id = $this->Vali_data('menu_id');
-            $data =  $this->menu_model->set_fied('id,menu_name,m,a,c,nav_seat,status,css,class')->get_floor($menu_id,'',$this->location);
+            $data =  $this->menu_model->set_fied('id,menu_name,m,a,c,nav_seat,status,css,class,url')->get_floor($menu_id,'',$this->location);
             return $data;
         }
         function dispose(){
