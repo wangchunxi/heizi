@@ -94,10 +94,12 @@
                 array('选择父级导航','pid','get_Allmenu','plug'=>'select'),
                 array('模型层','m','text','plug'=>'input'),
                 array('控制层','c','text','plug'=>'input'),
+                array('链接打开方式','class','get_class','plug'=>'select'),
                 array('方法名','a','text','plug'=>'input'),
                 array('链接地址(静态地址)','url','text','plug'=>'input'),
                 array('分组名','group','text','','plug'=>'input'),
                 array('按钮位置','nav_seat','text','plug'=>'input'),
+                array('链接类型','url_type','get_url_type','plug'=>'select'),
                 array('导航样式','css','text','plug'=>'input'),
                 array('备注','content','plug'=>'textarea')
             );
@@ -165,7 +167,7 @@
             );
             return $array;
         }
-        /**附件水印图修改
+        /**进销存列表
          * @return array
          */
         function Set_Purchase_TabTop(){
@@ -183,8 +185,25 @@
             );
             return $array;
         }
+        /**进销存列表
+         * @return array
+         */
+        function Set_Purchase_TabBottom(){
+            $array =array(
+                array('id','plug'=>'td_txt'),
+                array('goods_name','plug'=>'td_txt'),
+                array('goods_specification','plug'=>'td_txt'),
+                array('goods_version','plug'=>'td_txt'),
+                array('shape_code','plug'=>'td_txt'),
+                array('goods_pice','plug'=>'td_txt'),
+                array('goods_num','plug'=>'td_txt'),
+                array('goods_pice','plug'=>'td_txt'),
+                array('data_node','plug'=>'td_txt'),
+            );
+            return $array;
+        }
         /**
-         * 附件水印图详情页
+         * 添加货物详情页
          */
         function Set_Purchase_Info(){
             $array =array(

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:70:"/home/wwwroot/heizi/public/../app/admin/view/public/table_list_cp.html";i:1502615945;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:70:"/home/wwwroot/heizi/public/../app/admin/view/public/table_list_cp.html";i:1502880387;}*/ ?>
 
 <?php
     if(isset($config['list'])){
@@ -16,15 +16,13 @@ if(is_array($config['list']) || $config['list'] instanceof \think\Collection || 
                 ?>
                 <?php echo widget("admin/Webplug/table_list",  json_encode($news_array )); endforeach; endif; else: echo "" ;endif; ?>
             <td>
-                <a class="layui-btn layui-btn-mini Add_btn" href="javascript:;" data-id ="<?php echo $vo['id']; ?>" onclick="test(this)">
-                    <i class="iconfont icon-edit"></i>编辑
-                </a>
-                <!--    <a class="layui-btn layui-btn-normal layui-btn-mini news_collect">
-                        <i class="layui-icon"></i> 收藏
-                    </a>
-                    <a class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="1">
-                        <i class="layui-icon"></i> 删除
-                    </a>-->
+                <?php
+                    if(!empty($Button_arr)){
+                       $Button_arr = json_encode($Button_arr);
+                ?>
+                <?php echo widget("admin/Webplug/Button",$Button_arr); 
+                    }
+                ?>
             </td>
         </tr>
     <?php endforeach; endif; else: echo "" ;endif; ?>

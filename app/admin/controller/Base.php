@@ -39,6 +39,7 @@ class  Base extends  common{
         }catch( \Exception $e){
             $this->error($e->getMessage());
         }
+        dump(input('menu_id'));
     }
 
     /**
@@ -70,10 +71,13 @@ class  Base extends  common{
                     $Button_arr['Button'] = $Button; $Button_arr['type'] = 'list';
                 }
             }
-           $menu_name =  (new Menu())->set_map($map = array('id'=>$menu_id,'status'=>1))->set_fied('menu_name')->get_menu_info();
-        }
-        if($menu_name){
-            $this->assign('menu_name',$menu_name);
+            if($view == 'public/info'){
+                $menu_name =  (new Menu())->set_map($map = array('id'=>$menu_id,'status'=>1))->set_fied('menu_name')->get_menu_info();
+                if($menu_name){
+                      $this->assign('menu_name',$menu_name);
+                }
+            }
+
         }
         if($data_arr){
             $this->assign('data',$data_arr);

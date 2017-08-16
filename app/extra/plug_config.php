@@ -197,4 +197,28 @@
             $menu =  $menu->set_menu_ids()->get_Allmenu($field = 'id,menu_name,pid,level',true,'┝');
             return $menu;
         }
+        function get_url_type(){
+            $data =array(
+                array(
+                    'id'=>'Button',
+                    'title'=>'按钮',
+                ),
+                array(
+                    'id'=>'ajax_list',
+                    'title'=>'列表数据',
+                ),
+            );
+            return $data;
+        }
+        function get_class(){
+
+            $data = array(
+                array(
+                    'id'=>'Pop',
+                    'title'=>'弹窗',
+                ),
+            );
+            return $data;
+        }
+
     }

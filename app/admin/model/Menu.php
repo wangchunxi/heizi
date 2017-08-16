@@ -186,7 +186,7 @@
         function get_menu_info(){
             $map = $this->map;
             $field= $this->fied;
-            $result = $this->where($map)->field($field)->find();
+            $result = $this->where($map)->field($field)->find()->toArray();
             return $result;
         }
     }

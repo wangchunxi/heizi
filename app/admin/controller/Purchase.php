@@ -29,23 +29,25 @@ class  Purchase extends  Base{
         /*页面输出*/
         return  $this->Set_ListPage($data['config'],"public/table_list",$data['request_url']);
     }
-
+    /*列表页面*/
     public function getlist(){
         /*查询字段名称*/
-        $field = 'a.id,a.username,a.nickname,a.mobile,a.add_time,a.status,a.last_login_time,a.last_login_ip,b.group_name,c.username as add_username ';
+        $field = 'a.id,a.goods_name,a.goods_specification,a.goods_version,a.shape_code,a.goods_pice,
+                a.goods_num,a.add_time,a.data_node,a.update_time';
         /*获取页面数据*/
-        $data = $this->model->set_post(input('post'))->set_page(input('page'))->set_field($field)->getList();
+        $data = $this->model->Set_Post(input('post'))->Set_page(input('page'))->Set_page_num(10)->set_fields($field)->getList();
         /*获取配置*/
         $data_config = $this->Get_sys('getlist');
         $data['config'] =$data_config['config'];
         /*页面输出*/
-      //  return $this->Set_ListPage($data,"public/table_list_cp",$data_config['request_url']);
-
+        return $this->Set_ListPage($data,"public/table_list_cp",$data_config['request_url']);
     }
+
     /*添加页面*/
     public function add(){
       return  $this->info();
     }
+
     /*详情页*/
     public function info(){
         try {
@@ -66,25 +68,18 @@ class  Purchase extends  Base{
             return ajax_return(false,$e->getMessage());
         }
     }
+
     /*修改函数*/
     public function update(){
         if(request()->isPost()){
            try{
-               $result = $this->model->set_post($this->post)->update_data();
+               $result = $this->model->Set_Post($this->post)->update_data();
                return $result;
            }catch( \Exception $e){
                return ajax_return(false,$e->getMessage());
            }
         }
     }
-    public function accredit(){
-    }
-    public function vali_data(){
-        if(request()->isPost()){
-            return $this->model->set_post($this->post)->vali_data();
-        }
-    }
-
     /**
      * 获取配置参数
      */
@@ -93,7 +88,7 @@ class  Purchase extends  Base{
         switch($page_name){
             case 'index':
                 $data['config'] = $Plug->Set_TabTop(1)->index('Set_Purchase_TabTop');
-                $data['request_url']['get_list'] =  url('getlist');
+                $data['request_url']['get_list'] =  url('admin/getlist');
                 $data['request_url']['add_url'] = url('add');
                 break;
             case 'info':
@@ -105,8 +100,7 @@ class  Purchase extends  Base{
                 $data['request_url']['submit_url'] = url('update');
                 break;
             case 'getlist':
-                $data['config']= $Plug->index('Set_User_TabBottom');
-                $data['request_url']['edit'] = '/admin/User/info/id/';
+                $data['config']= $Plug->index('Set_Purchase_TabBottom');
                 break;
         }
         return $data;
