@@ -49,11 +49,14 @@
         }
         public  function Button($data=''){
             if($data){
+
                 $data = json_decode($data,true);
                 $Button = $data['Button'];
                 $type = $data['type'];
+                $id = isset($data['id']) ?$data['id'] : 0;
                 $this->model->assign('Button',$Button);
                 $this->model->assign('type',$type);
+                $this->model->assign('id',$id);
                 return $this->model->fetch('widget:button');
             }
         }

@@ -9,6 +9,7 @@ namespace app\admin\controller;
 use app\admin\model\Admin;
 use Plug\Plug;
 use think\Controller;
+use think\Url;
 
 class  Purchase extends  Base{
     private $model;
@@ -39,6 +40,7 @@ class  Purchase extends  Base{
         /*获取配置*/
         $data_config = $this->Get_sys('getlist');
         $data['config'] =$data_config['config'];
+        $data_config['request_url']['edit'] =Url();
         /*页面输出*/
         return $this->Set_ListPage($data,"public/table_list_cp",$data_config['request_url']);
     }
@@ -54,8 +56,9 @@ class  Purchase extends  Base{
             $id = input('id');
             /*获取修改数据*/
             if($id){
-                $field='id,username,nickname,mobile,password,group';
-                $data_arr = $this->model->find_user_Info($id,'',$field);
+                $field='*';
+                $map['id'] = $id;
+                $data_arr = $this->model->Set_map($map)->Set_fields($field)->find_Purchase_Info();
                 /*获取配置*/
                 $data = $this->Get_sys('info',$data_arr);
                 return $this->Set_ListPage($data['config'],"public/info",$data['request_url'],$data_arr);
@@ -88,8 +91,7 @@ class  Purchase extends  Base{
         switch($page_name){
             case 'index':
                 $data['config'] = $Plug->Set_TabTop(1)->index('Set_Purchase_TabTop');
-                $data['request_url']['get_list'] =  url('admin/getlist');
-                $data['request_url']['add_url'] = url('add');
+                $data['request_url']['get_list'] =  url('/admin/Purchase/getlist/menu_id/21');
                 break;
             case 'info':
                 if($data){

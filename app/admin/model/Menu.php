@@ -166,7 +166,7 @@
             }
             return ajax_return(true,'操作成功');
         }
-        /*获取指定菜单下的子菜单或者是统计菜单*/
+        /*获取指定菜单下的直属子菜单或者是统计菜单*/
         function get_floor($menu_id,$type='count',$nav_seat =''){
             //($menu_id);
             $map = $this->map;
@@ -180,9 +180,12 @@
             }else{
                 $data = $this->where($map)->field($fied)->select()->toArray();
             }
-     //       dump($map);
             return $data;
         }
+
+        /**获取单个菜单详情
+         * @return array
+         */
         function get_menu_info(){
             $map = $this->map;
             $field= $this->fied;

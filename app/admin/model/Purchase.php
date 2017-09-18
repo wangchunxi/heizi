@@ -134,7 +134,7 @@
             }
             return true;
         }
-
+        /*获取列表整合*/
         function getList(){
             $map['status'] = 1;
             $data['total_num'] = $this->where($map)->count('id');
@@ -156,6 +156,13 @@
                 $data['list'] = $list;
             }
             return $data;
+        }
+        /*获取单条数据*/
+        function find_Purchase_Info(){
+            $map = $this->map;
+            $fields = $this->fields;
+            $info =  $this->where($map)->field($fields)->find()->toArray();
+            return $info;
         }
 
     }

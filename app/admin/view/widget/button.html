@@ -1,17 +1,15 @@
+
+{volist name = "Button" id = "vo"}
 <?php
-    if($type =='head'){
-?>
-    {volist name = "Button" id = "vo"}
-        <!--<button class="{$vo.css}">{$vo.menu_name}</button>-->
-        <a
-                class="layui-btn" id="head_button"  href="javascript:;"  data-opentype="{$vo.class}"
-                data-name="{$vo.menu_name}" data-url="<?php echo Url('/'.$vo['url'].'/menu_id/'.$vo['id']);?>"
-        >{$vo.menu_name}</a>
-    {/volist}
-<?php
-    }else{
-?>
-    <button class="layui-btn-mini">迷你按钮</button>
-<?php
+    $class = '';
+    $url =  Url('/'.$vo['url'].'/menu_id/'.$vo['id']);
+    if($type !='head'){
+        $class = 'layui-btn-mini';
+         $url =  Url('/'.$vo['url'].'/menu_id/'.$vo['id'].'/id/'.$id);
     }
 ?>
+    <a
+            class="layui-btn head_button {$class} "  href="javascript:;"  data-opentype="{$vo.class}"
+            data-name="{$vo.menu_name}" data-url="{$url}"
+    >{$vo.menu_name}</a>
+{/volist}

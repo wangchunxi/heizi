@@ -52,9 +52,10 @@
          */
         function get_page(){
             $menu_id = $this->Vali_data('menu_id');
-            $data =  $this->menu_model->set_fied('id,menu_name,m,a,c,nav_seat,status,css,class,url')->get_floor($menu_id,'',$this->location);
+            $data =  $this->menu_model->set_fied('id,menu_name,m,a,c,nav_seat,status,css,class,url,url_type')->get_floor($menu_id,'',$this->location);
             return $data;
         }
+        /*获取本页面符合当前登录者的权限按钮*/
         function dispose(){
             $uid = $this->Vali_data('uid');
             /*访问页面是否存在子集*/
@@ -77,4 +78,5 @@
             }
             return $Auth_menu;
         }
+
     }
