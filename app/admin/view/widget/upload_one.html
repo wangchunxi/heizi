@@ -28,9 +28,10 @@
         <button id="ctlBtn" class="btn btn-default">开始上传</button>
     </div>
 </div>-->
-<link rel="stylesheet" href="{$Think.__ADMIN_WEBUPLOADE__}/css/webuploader.css" media="all" />
-<script type="text/javascript" src="{$Think.__ADMIN_WEBUPLOADE__}/js/webuploader.js"></script>
-<script type="text/javascript" src="{$Think.__ADMIN_WEBUPLOADE__}/js/webuploader.nolog.js"></script>
+{block name="include"}
+{include file="/public/webuploader" /}
+{/block}
+<script type="text/javascript" src="{$Think.__ADMIN_LAYER__}/js/Web_Uploader.js"></script>
     <div  style="margin: 20px 0px 10px 25px">
         <div id="uploadBtn" class="btn btn-upload">上传文件</div>
         <div id="list" class="upload-box clearfix"></div>

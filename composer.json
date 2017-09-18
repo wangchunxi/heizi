@@ -27,7 +27,8 @@
         "topthink/think-worker": "^1.0",
         "topthink/think-helper": "^1.0",
         "topthink/think-queue": "^1.0",
-        "phpoffice/phpexcel": "^1.8.1"
+        "phpoffice/phpexcel": "^1.8.1",
+        "noprom/think5-extend": "dev-master"
     },
     "extra": {
         "think-path": "thinkphp"

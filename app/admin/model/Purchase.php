@@ -165,4 +165,34 @@
             return $info;
         }
 
+        /**
+         * 调用excel 批量添加
+         */
+        function Excel_Goods(){
+            $post = $this->Post;
+           $excel =  new \Excel();
+            $array=array(
+                'ids','goods_name', 'goods_specification','goods_version','shape_code','goods_pice'
+            );
+           $arr =   $excel->Set_array($array)->Set_path($post['file_url'])->Set_ExcelType('Import')->Set_start_highestRow(2)->Excel_operate();
+            $tips = array() ;
+            $num = count($arr);
+            foreach($arr as $k=>$v){
+                try{
+                    $ids = $v['ids'];unset($v['ids']);
+                    $this->Set_Post($v)->update_data();
+                }catch( \Exception $e){
+                    $tips[]='序号为'.$ids.'的数据导入失败，原因:'.$e->getMessage();
+                }
+            }
+            $info = '一共'.$num.'条数据';
+            if(count($tips)>0){
+                $info.=" <br/> ".'导入成功'.($num-(count($tips))).'条数据';
+                $info.=" <br/> ".'导入失败'.count($tips).'条数据';
+            }else{
+                $info = '全部导入成功!';
+            }
+            return  json_encode(array('status'=>false,'info'=>$info,'url'=>''));
+        }
+
     }

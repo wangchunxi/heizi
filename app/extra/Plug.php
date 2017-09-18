@@ -216,4 +216,11 @@
             );
             return $array;
         }
+        function Set_Excel_Import_Goods_Info(){
+            $array =array(
+                array('上传货物表格','group_name','text','','plug'=>'uploadXml','value'=>'group_name'),
+                array('','class','hidden','','plug'=>'input','value'=>'')
+            );
+            return $array;
+        }
     }

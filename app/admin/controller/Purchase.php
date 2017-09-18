@@ -44,7 +44,15 @@ class  Purchase extends  Base{
         /*页面输出*/
         return $this->Set_ListPage($data,"public/table_list_cp",$data_config['request_url']);
     }
-
+    /*批量添加货物*/
+    function Excel_Import_Goods(){
+        if(request()->isPost()){
+           return $this->model->Set_Post($_POST)->Excel_Goods();
+        }else{
+            $data = $this->Get_sys('Excel_Import_Goods');
+            return $this->Set_ListPage($data['config'],"public/info",$data['request_url']);
+        }
+    }
     /*添加页面*/
     public function add(){
       return  $this->info();
@@ -103,6 +111,10 @@ class  Purchase extends  Base{
                 break;
             case 'getlist':
                 $data['config']= $Plug->index('Set_Purchase_TabBottom');
+                break;
+            case 'Excel_Import_Goods':
+                $data['config']= $Plug->index('Set_Excel_Import_Goods_Info');
+                $data['request_url']['submit_url'] = url('Excel_Import_Goods');
                 break;
         }
         return $data;

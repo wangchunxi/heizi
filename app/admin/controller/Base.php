@@ -24,6 +24,7 @@ class  Base extends  common{
         try{
             /*获取当前页面的父级ID*/
             $this->menu_id = input('menu_id');
+            $this->menu_id =  isset($this->menu_id) ?$this->menu_id : 1;
             $this->get_menu_info();
             if(session('uid')!=1 && session('uid')){
                 $auth =  new Auth();
