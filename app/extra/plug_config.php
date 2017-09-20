@@ -154,6 +154,13 @@
                 case 'textarea':
                     $set_array = $set_config['info'];
                     break;
+                case 'checkbox':
+                    $set_array = $set_config['info']; $set_array[]='option';
+                    $set_array[]='class';
+                    break;
+                case 'div':
+                    $set_array[]='class';
+                    break;
             }
             if($this->Value){
                 $set_array[]='value';
@@ -183,7 +190,7 @@
                 }
 
             }
-         //   dump($new_array);
+        //    dump($new_array);
             /*返回标准数据*/
             return $new_array;
         }
@@ -217,6 +224,18 @@
                     'id'=>'Pop',
                     'title'=>'弹窗',
                 ),
+            );
+            return $data;
+        }
+        public function get_all_goods(){
+            $data =array(
+                '1'=>'书',
+                '2'=>'书',
+                '3'=>'书',
+                '4'=>'书',
+                '5'=>'书',
+                '6'=>'书',
+                '7'=>'书',
             );
             return $data;
         }

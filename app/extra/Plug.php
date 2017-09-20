@@ -216,10 +216,19 @@
             );
             return $array;
         }
+        /*批量添加货物页面*/
         function Set_Excel_Import_Goods_Info(){
             $array =array(
                 array('上传货物表格','group_name','text','','plug'=>'uploadXml','value'=>'group_name'),
                 array('','class','hidden','','plug'=>'input','value'=>'')
+            );
+            return $array;
+        }
+        /*选择货物页面*/
+        function Set_Choice_Goods(){
+            $array =array(
+                array('货物名称','goods_name[]','get_all_goods','goods_name','plug'=>'checkbox'),
+                array('emblem_goods_name','plug'=>'div'),
             );
             return $array;
         }

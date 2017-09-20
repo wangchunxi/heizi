@@ -1,0 +1,8 @@
+<div class="layui-form-item" >
+    <label class="layui-form-label">{$data.name}</label>
+    <div class="layui-input-block {$data.class}">
+        {volist name="$data.option" id = "vo" }
+            <input type="checkbox"  name="{$data.submit_name}"  value="{$key}"  title="{$vo}" lay-filter="{$data.class}" >
+        {/volist}
+    </div>
+</div>

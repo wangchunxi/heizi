@@ -186,13 +186,19 @@
                 }
             }
             $info = '一共'.$num.'条数据';
+            $staus = true;
             if(count($tips)>0){
                 $info.=" <br/> ".'导入成功'.($num-(count($tips))).'条数据';
                 $info.=" <br/> ".'导入失败'.count($tips).'条数据';
+                $cause = '请删掉成功的数据后修改错误原因重新导入';
+                foreach($tips as $k=>$v){
+                    $cause.='<br/>'.$v;
+                }
+                $staus = false;
             }else{
                 $info = '全部导入成功!';
             }
-            return  json_encode(array('status'=>false,'info'=>$info,'url'=>''));
+            return  json_encode(array('status'=>$staus,'info'=>$info,'url'=>'','cause'=>$cause));
         }
 
     }

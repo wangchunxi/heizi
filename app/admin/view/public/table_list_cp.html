@@ -20,10 +20,13 @@
             <td>
                 <?php
                     if(!empty($Button_arr)){
-                       $Button_arr['id'] =$vo['id'];
-                       $Button_arr = json_encode($Button_arr);
+                    $data_arr = $Button_arr;
+                      //  dump($vo);exit;
+                       $data_arr['id'] =1;
+                     // dump($Button_arr);exit;
+                       $data_arr = json_encode($data_arr);
                 ?>
-                {:widget("admin/Webplug/Button",$Button_arr)}
+                {:widget("admin/Webplug/Button",$data_arr)}
                 <?php
                     }
                 ?>

@@ -53,6 +53,27 @@ class  Purchase extends  Base{
             return $this->Set_ListPage($data['config'],"public/info",$data['request_url']);
         }
     }
+
+    /**
+     * 选择货物
+     */
+    public function choice_goods (){
+        if(request()->isPost()){
+
+        }else{
+            $data = $this->Get_sys('choice_goods');
+            return $this->Set_ListPage($data['config'],"public/info",$data['request_url']);
+        }
+    }
+
+    /**
+     * ajax搜索货物
+     */
+    public function ajax_search_goods(){
+        if(request()->isAjax()){
+
+        }
+    }
     /*添加页面*/
     public function add(){
       return  $this->info();
@@ -97,10 +118,12 @@ class  Purchase extends  Base{
     protected  function Get_sys($page_name='',$data=array()){
         $Plug = new Plug();
         switch($page_name){
+            /*列表配置*/
             case 'index':
                 $data['config'] = $Plug->Set_TabTop(1)->index('Set_Purchase_TabTop');
                 $data['request_url']['get_list'] =  url('/admin/Purchase/getlist/menu_id/21');
                 break;
+            /*详情配置*/
             case 'info':
                 if($data){
                     $data['config'] =$Plug->Set_Value($data)->index('Set_Purchase_Info');
@@ -109,12 +132,18 @@ class  Purchase extends  Base{
                 }
                 $data['request_url']['submit_url'] = url('update');
                 break;
+            /*ajax列表加载*/
             case 'getlist':
                 $data['config']= $Plug->index('Set_Purchase_TabBottom');
                 break;
+            /*批量添加货物页面*/
             case 'Excel_Import_Goods':
                 $data['config']= $Plug->index('Set_Excel_Import_Goods_Info');
                 $data['request_url']['submit_url'] = url('Excel_Import_Goods');
+                break;
+            case 'choice_goods':
+                $data['config']= $Plug->index('Set_Choice_Goods');
+                $data['request_url']['submit_url'] = url('choice_goods');
                 break;
         }
         return $data;

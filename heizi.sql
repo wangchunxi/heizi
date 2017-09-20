@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2017-09-13 17:58:23
+Date: 2017-09-20 18:10:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -43,7 +43,7 @@ CREATE TABLE `h_admin` (
 -- ----------------------------
 -- Records of h_admin
 -- ----------------------------
-INSERT INTO `h_admin` VALUES ('1', 'admin', 'b7ca6c19414db6298480c6e7d23e6ed2', '0', '1,4,5,8,9,10', '小白', '18129911829', '192.168.56.1', '1502848845', '192.168.56.1', '1502847642', '1500037150', '192.168.56.1', null, null, '1', '1');
+INSERT INTO `h_admin` VALUES ('1', 'admin', 'b7ca6c19414db6298480c6e7d23e6ed2', '0', '1,4,5,8,9,10', '小白', '18129911829', '192.168.56.1', '1505873407', '192.168.56.1', '1505730275', '1500037150', '192.168.56.1', null, null, '1', '1');
 INSERT INTO `h_admin` VALUES ('2', 'guojingxian@qq.com', '', '0', null, '锅1+1', '18688561053', null, null, null, null, '1501376133', '192.168.56.1', '1502536709', null, '1', '0');
 
 -- ----------------------------
@@ -114,7 +114,7 @@ CREATE TABLE `h_log` (
   `surface` varchar(255) DEFAULT NULL COMMENT '操作的表名称',
   `action_ip` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of h_log
@@ -152,6 +152,12 @@ INSERT INTO `h_log` VALUES ('30', '1', 'admin', '1502813179', 'share/admin/login
 INSERT INTO `h_log` VALUES ('31', '1', 'admin', '1502813826', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
 INSERT INTO `h_log` VALUES ('32', '1', 'admin', '1502847642', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
 INSERT INTO `h_log` VALUES ('33', '1', 'admin', '1502848845', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
+INSERT INTO `h_log` VALUES ('34', '1', 'admin', '1502865484', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
+INSERT INTO `h_log` VALUES ('35', '1', 'admin', '1502865952', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
+INSERT INTO `h_log` VALUES ('36', '1', 'admin', '1502873550', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
+INSERT INTO `h_log` VALUES ('37', '1', 'admin', '1502889387', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
+INSERT INTO `h_log` VALUES ('38', '1', 'admin', '1505730275', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
+INSERT INTO `h_log` VALUES ('39', '1', 'admin', '1505873407', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
 
 -- ----------------------------
 -- Table structure for h_menu
@@ -177,38 +183,43 @@ CREATE TABLE `h_menu` (
   `css` varchar(255) DEFAULT NULL,
   `view` int(11) DEFAULT '0' COMMENT '调用模板',
   `patn` varchar(255) NOT NULL DEFAULT '' COMMENT '菜单结构',
-  `class` varchar(255) DEFAULT NULL,
+  `class` varchar(255) DEFAULT NULL COMMENT '链接请求的打开方式',
+  `url_type` varchar(255) DEFAULT NULL COMMENT '链接类型',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='后台菜单权限';
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='后台菜单权限';
 
 -- ----------------------------
 -- Records of h_menu
 -- ----------------------------
-INSERT INTO `h_menu` VALUES ('1', '主页', '0', '1', 'admin', 'Index', 'index', 'admin/Index/index', '', '1499972354', '0', null, null, '主页', '0', '1', '', '0', '0-', null);
-INSERT INTO `h_menu` VALUES ('4', '系统管理', '0', '1', '', '', '', '', '', '1499977381', '0', null, null, '系统管理', '0', '1', '&#xe630;', '0', '0-', null);
-INSERT INTO `h_menu` VALUES ('5', '菜单列表', '4', '2', 'admin', 'nav', 'index', 'admin/nav/index', '', '1499978292', '0', null, null, '系统管理', '0', '1', '&#xe61c;', '0', '0-4-', null);
-INSERT INTO `h_menu` VALUES ('8', '模板列表', '4', '2', 'admin', 'view', 'index', 'admin/view/index', '', '1499979376', '0', null, null, '系统管理', '0', '1', '&#xe61c;', '0', '0-4-', null);
-INSERT INTO `h_menu` VALUES ('9', '用户管理', '0', '1', '', '', '', '', '', '1500025425', '0', null, null, '用户管理', '0', '1', '&#xe612;', '0', '0-', null);
-INSERT INTO `h_menu` VALUES ('10', '用户列表', '9', '2', 'admin', 'user', 'index', 'admin/user/index', '', '1500025672', '0', null, null, '用户管理', '0', '1', '&#xe613;', '2', '0-9-', null);
-INSERT INTO `h_menu` VALUES ('11', 'test', '4', '2', 'admin', 'view', 'newsList', 'admin/view/newsList', '', '1501332552', '0', null, null, '系统管理', '0', '1', '&#xe61c;', '0', '0-4-', null);
-INSERT INTO `h_menu` VALUES ('12', '用户组列表', '9', '2', 'Admin', 'Group', 'index', 'Admin/Group/index', '', '1502543559', '0', null, null, '用户组列表', '0', '1', '&#xe61c;', '0', '0-9-', null);
-INSERT INTO `h_menu` VALUES ('13', '添加', '12', '3', 'Admin', 'Group', 'add', 'Admin/Group/add', '', '1502547581', '0', null, null, '添加', '1', '1', '', '0', '0-9-12-', 'Pop');
-INSERT INTO `h_menu` VALUES ('14', '修改', '12', '3', 'admin', 'Group', 'info', 'admin/Group/info', '', '1502573330', '0', null, null, '修改', '2', '1', '', '0', '0-9-12-', null);
-INSERT INTO `h_menu` VALUES ('15', '添加', '10', '3', 'admin', 'User', 'add', 'admin/User/add', '', '1502577231', '0', null, null, '添加', '1', '1', '', '0', '0-9-10-', 'Pop');
-INSERT INTO `h_menu` VALUES ('16', '附件管理', '0', '1', '', '', '', '', '', '1502637106', '1', null, null, '附件管理', '0', '1', '&#xe61d;', '0', '0-', null);
-INSERT INTO `h_menu` VALUES ('17', '水印图管理', '16', '2', 'admin', 'Attachment', 'Watermark_List', 'admin/Attachment/Watermark_List', '', '1502637360', '1', null, null, '水印图管理', '0', '1', '&#xe60d;', '0', '0-16-', null);
-INSERT INTO `h_menu` VALUES ('18', '添加', '17', '3', 'admin', 'Attachment', 'Add_watermark', 'admin/Attachment/Add_watermark', '', '1502640393', '1', null, null, '', '1', '1', '', '0', '0-16-17-', 'Pop');
-INSERT INTO `h_menu` VALUES ('19', '添加', '5', '3', 'admin', 'nav', 'add', 'admin/nav/add', '1', '1502640393', '1', null, null, '添加', '1', '1', '&#xe60d;', '0', '0-4-5-', 'Pop');
-INSERT INTO `h_menu` VALUES ('20', '进销存管理', '0', '1', '', '', '', '', '', '1502850348', '1', null, null, '', '0', '1', '&#xe6b2;', '0', '0-', null);
-INSERT INTO `h_menu` VALUES ('21', '进销存列表', '20', '2', 'admin', 'purchase', 'index', 'admin/purchase/index', '', '1502850887', '1', null, null, '', '0', '1', '&#xe62a;', '0', '0-20-', null);
-INSERT INTO `h_menu` VALUES ('22', '添加货物', '21', '3', 'admin', 'Purchase', 'add', 'admin/Purchase/add', '', '1502855129', '1', null, null, '', '1', '1', '', '0', '0-20-21-', 'Pop');
+INSERT INTO `h_menu` VALUES ('1', '主页', '0', '1', 'admin', 'Index', 'index', 'admin/Index/index', '', '1499972354', '0', null, null, '主页', '0', '1', '', '0', '0-', null, null);
+INSERT INTO `h_menu` VALUES ('4', '系统管理', '0', '1', '', '', '', '', '', '1499977381', '0', null, null, '系统管理', '0', '1', '&#xe630;', '0', '0-', null, null);
+INSERT INTO `h_menu` VALUES ('5', '菜单列表', '4', '2', 'admin', 'nav', 'index', 'admin/nav/index', '', '1499978292', '0', null, null, '系统管理', '0', '1', '&#xe61c;', '0', '0-4-', null, null);
+INSERT INTO `h_menu` VALUES ('8', '模板列表', '4', '2', 'admin', 'view', 'index', 'admin/view/index', '', '1499979376', '0', null, null, '系统管理', '0', '1', '&#xe61c;', '0', '0-4-', null, null);
+INSERT INTO `h_menu` VALUES ('9', '用户管理', '0', '1', '', '', '', '', '', '1500025425', '0', null, null, '用户管理', '0', '1', '&#xe612;', '0', '0-', null, null);
+INSERT INTO `h_menu` VALUES ('10', '用户列表', '9', '2', 'admin', 'user', 'index', 'admin/user/index', '', '1500025672', '0', null, null, '用户管理', '0', '1', '&#xe613;', '2', '0-9-', null, null);
+INSERT INTO `h_menu` VALUES ('11', 'test', '4', '2', 'admin', 'view', 'newsList', 'admin/view/newsList', '', '1501332552', '0', null, null, '系统管理', '0', '1', '&#xe61c;', '0', '0-4-', null, null);
+INSERT INTO `h_menu` VALUES ('12', '用户组列表', '9', '2', 'Admin', 'Group', 'index', 'Admin/Group/index', '', '1502543559', '0', null, null, '用户组列表', '0', '1', '&#xe61c;', '0', '0-9-', null, null);
+INSERT INTO `h_menu` VALUES ('13', '添加', '12', '3', 'Admin', 'Group', 'add', 'Admin/Group/add', '', '1502547581', '0', null, null, '添加', '1', '1', '', '0', '0-9-12-', 'Pop', null);
+INSERT INTO `h_menu` VALUES ('14', '修改', '12', '3', 'admin', 'Group', 'info', 'admin/Group/info', '', '1502573330', '0', null, null, '修改', '2', '1', '', '0', '0-9-12-', null, null);
+INSERT INTO `h_menu` VALUES ('15', '添加', '10', '3', 'admin', 'User', 'add', 'admin/User/add', '', '1502577231', '0', null, null, '添加', '1', '1', '', '0', '0-9-10-', 'Pop', null);
+INSERT INTO `h_menu` VALUES ('16', '附件管理', '0', '1', '', '', '', '', '', '1502637106', '1', null, null, '附件管理', '0', '1', '&#xe61d;', '0', '0-', null, null);
+INSERT INTO `h_menu` VALUES ('17', '水印图管理', '16', '2', 'admin', 'Attachment', 'Watermark_List', 'admin/Attachment/Watermark_List', '', '1502637360', '1', null, null, '水印图管理', '0', '1', '&#xe60d;', '0', '0-16-', null, null);
+INSERT INTO `h_menu` VALUES ('18', '添加', '17', '3', 'admin', 'Attachment', 'Add_watermark', 'admin/Attachment/Add_watermark', '', '1502640393', '1', null, null, '', '1', '1', '', '0', '0-16-17-', 'Pop', null);
+INSERT INTO `h_menu` VALUES ('19', '添加', '5', '3', 'admin', 'nav', 'add', 'admin/nav/add', '1', '1502640393', '1', null, null, '添加', '1', '1', '&#xe60d;', '0', '0-4-5-', 'Pop', null);
+INSERT INTO `h_menu` VALUES ('23', '货物编辑', '21', '3', 'admin', 'Purchase', 'info', 'admin/Purchase/info', '', '1502880483', '1', null, null, '', '2', '1', '', '0', '0-20-21-', 'Pop', 'Button');
+INSERT INTO `h_menu` VALUES ('20', '进销存管理', '0', '1', '', '', '', '', '', '1502850348', '1', null, null, '', '0', '1', '&#xe6b2;', '0', '0-', null, null);
+INSERT INTO `h_menu` VALUES ('21', '进销存列表', '20', '2', 'admin', 'purchase', 'index', 'admin/purchase/index', '', '1502850887', '1', null, null, '', '0', '1', '&#xe62a;', '0', '0-20-', null, null);
+INSERT INTO `h_menu` VALUES ('22', '添加货物', '21', '3', 'admin', 'Purchase', 'add', 'admin/Purchase/add', '', '1502855129', '1', null, null, '', '1', '1', '', '0', '0-20-21-', 'Pop', 'Button');
+INSERT INTO `h_menu` VALUES ('24', 'ajax数据列表', '21', '3', 'admin', 'Purchase', 'getlist', 'admin/Purchase/getlist', '', '1502886569', '1', null, null, '', '0', '1', '', '0', '0-20-21-', '0', 'ajax_list');
+INSERT INTO `h_menu` VALUES ('25', '批量添加货物', '21', '3', 'admin', 'Purchase', 'Excel_Import_Goods', 'admin/Purchase/Excel_Import_Goods', '', '1505738360', '1', null, null, '', '1', '1', '', '0', '0-20-21-', 'Pop', 'Button');
+INSERT INTO `h_menu` VALUES ('26', '选择货物', '21', '3', 'admin', 'Purchase', 'choice_goods', 'admin/Purchase/choice_goods', '', '1505884537', '1', null, null, '', '1', '1', '', '0', '0-20-21-', 'Pop', 'Button');
 
 -- ----------------------------
 -- Table structure for h_purchase
 -- ----------------------------
 DROP TABLE IF EXISTS `h_purchase`;
 CREATE TABLE `h_purchase` (
-  `id` int(11) unsigned NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `goods_name` varchar(255) NOT NULL COMMENT '货物名称',
   `goods_specification` varchar(255) NOT NULL COMMENT '货物规格',
   `goods_version` varchar(255) NOT NULL,
@@ -221,11 +232,13 @@ CREATE TABLE `h_purchase` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '-1=>删除，1正常',
   `data_node` int(11) NOT NULL DEFAULT '0' COMMENT '列表数据使用哪个时间段的',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of h_purchase
 -- ----------------------------
+INSERT INTO `h_purchase` VALUES ('1', '小郭牌米线', 'h-a', 'h-a', '', '0.00', '0', null, '1502873967', '1', '1', '0');
+INSERT INTO `h_purchase` VALUES ('2', '测试名称', '测试规格', '测试型号', '123325656', '0.00', '0', null, '1505760232', '1', '1', '0');
 
 -- ----------------------------
 -- Table structure for h_purchase_operation
