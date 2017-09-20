@@ -1,3 +1,7 @@
+<?php
+    switch ($data['type']){
+        case'checkbox':
+?>
 <div class="layui-form-item" >
     <label class="layui-form-label">{$data.name}</label>
     <div class="layui-input-block {$data.class}">
@@ -6,3 +10,16 @@
         {/volist}
     </div>
 </div>
+<?php
+    break;
+    case'switch':
+?>
+<div class="layui-form-item" >
+    <label class="layui-form-label">{$data.name}</label>
+    <div class="layui-input-block {$data.class}">
+        <input type="checkbox" name="{$data.submit_name}" value="true" lay-skin="switch" lay-text="{$data.textis}|{$data.texton}" checked>
+    </div>
+</div>
+<?php
+    }
+?>

@@ -21,6 +21,7 @@
         private $msg;
         private $page_num;
         private $page;
+     //   private $data;
         /*提交内容*/
         function Set_Post($Post){
             /*前后空格处理*/
@@ -62,6 +63,7 @@
             $this->page = $page;
             return $this;
         }
+
         public function initialize()
         {
             $this->rule =array(
@@ -92,6 +94,8 @@
             }
             /*入库操作*/
             if($post['id']<=0){
+                $data_node = $this->where('id',1)->value('data_node');
+                $post['data_node'] = $data_node;
                 $result = $this->insert($post);
             }else{
                 $result = $this->update($post);
@@ -168,17 +172,10 @@
             $info =  $this->where($map)->field($fields)->find()->toArray();
             return $info;
         }
-
-        /**
-         * 调用excel 批量添加
-         */
-        function Excel_Goods(){
-            $post = $this->Post;
-            $excel =  new \Excel();
-            $array=array(
-                'ids','goods_name', 'goods_specification','goods_version','shape_code','goods_pice'
-            );
-           $arr =   $excel->Set_array($array)->Set_path($post['file_url'])->Set_ExcelType('Import')->Set_start_highestRow(2)->Excel_operate();
+        /*
+         * 循环添加货物到数据库中
+        */
+        function foreach_select($arr){
             $tips = array() ;
             $num = count($arr);
             foreach($arr as $k=>$v){
@@ -200,9 +197,21 @@
                 }
                 $staus = false;
             }else{
+                $cause ='';
                 $info = '全部导入成功!';
             }
             return  json_encode(array('status'=>$staus,'info'=>$info,'url'=>'','cause'=>$cause));
+        }
+
+        /**
+         * 调用excel 批量添加
+         * 返回excel里的数组
+         */
+        function Excel_Goods($array,$start_limt = 2){
+            $post = $this->Post;
+            $excel =  new \Excel();
+            $arr =   $excel->Set_array($array)->Set_path($post['file_url'])->Set_ExcelType('Import')->Set_start_highestRow($start_limt)->Excel_operate();
+            return $arr;
         }
 
         /**获取列表信息，不带分页
@@ -218,21 +227,105 @@
         function get_array_assembly($array){
             $data = array();
             foreach($array as $k=>$v){
-                $data[$v['id']] = $v['goods_name'].$v['goods_specification'].$v['goods_version'];
+                $data[$v['id']] = $v['goods_name'].$v['goods_specification'].$v['goods_version'].$v['shape_code'];
             }
             return $data;
         }
         /*导出进销存export*/
-        function get_export(){
+        function get_export($fields){
             $post = $this->Post;
             $excel =  new \Excel();
-            $fields = array(
-                array('id','标记'),
-                array('goods_name','货物名称'),
-                array('goods_specification','规格'),
-                array('goods_version','型号'),
-                array('num','数量')
-            );
             $excel->Set_data($post)->Set_data_title($fields)->Set_file_name('进销存')->Set_title('进销存')->Set_ExcelType('export')->Excel_operate();
+        }
+
+        /**
+         * 处理进销存验证处
+         */
+        function handling_Enters_sells_saves($data){
+            $post = $this->Post;
+            $tips = array();
+           // if($post['goods_name']!=true){
+            foreach ($data as $key=>$va){
+                $goods_id[]= $va['id'];
+                /*id不能被丢失*/
+                if($va['id']<0 || empty($va['id'])){
+                    $tips[] =' <br/> 第'.$key.'排的货物标记丢失，请不要随便更改导出的模板,请重新下载模板或者补上正确的货物标记';
+                }
+                /*提交的数字参数不能小于0*/
+                if($va['goods_num']<0 || !is_numeric($va['goods_num'])){
+                    $tips[] ='<br/> 标记为'.$va['id'].'的货物提交数据里的数量可能不是数字或者小于0';
+                }
+                /*组合数组*/
+                $Newdata[Trim($va['id'])] = Trim($va['goods_name']).Trim($va['goods_specification']).Trim($va['goods_version']).Trim($va['shape_code']);
+                /*获取id=>数量*/
+                $goods_nums[Trim($va['id'])]= $va['goods_num'];
+            }
+            $map['id']= array('in',implode(',',$goods_id));
+            $arr = $this->Set_fields('id,goods_name,goods_specification,goods_version,shape_code,goods_num')->Set_map($map)->get_select();
+            foreach ($arr as $k=>$v){
+                if(!isset($Newdata[$v['id']])){
+                    $tips[] =' <br/> 模板已被修改请重新下载模板';
+                }
+               // dump($Newdata);
+                /*检查货物与id是否相匹配*/
+                if(Trim($v['goods_name']).Trim($v['goods_specification']).Trim($v['goods_version']).Trim($v['shape_code'])!=Trim($Newdata[$v['id']])){
+                    $tips[] ='<br/> 标记为'.$v['id'].'货物标记与货物名称在数据库里无法匹配，请重新导出模板，不要随意改变除数量以外的模板内容！';
+                }
+                /*出仓模式要验证库存-出仓数量》=0*/
+                if($post['goods_name']!=true){
+                    $num = $v['goods_num']-$goods_nums[$v['id']];
+                    if($num<0){
+                        $tips[] = '<br/> 标记为'.$v['id'].'货物库存小于将要出仓的数据，数量不能为负数无法执行';
+                    }
+                }else{
+                    $num = $v['goods_num']+$goods_nums[$v['id']];
+                }
+                /*最新的货物数量*/
+                $Newgoods[] =['id'=>$v['id'],'goods_num'=>$num];
+            }
+            if(count($tips)>0){
+                return json_encode(array('status'=>false,'info'=>'验证失败','url'=>'','cause'=>$tips));
+            }
+            return $this->handling_transaction_DB($Newgoods,$post['goods_name'],$goods_nums);
+        }
+
+        /**
+         * @param $Newgoods 主库的数据
+         * @param $type     进仓还是出仓
+         * @param $goods_nums 附表数据
+         */
+        function handling_transaction_DB($Newgoods,$type,$goods_nums){
+            try{
+                $this->startTrans();
+                /*批量进仓*/
+                $result = $this->saveAll($Newgoods);
+                //dump($result);exit();
+                if(!$result){
+                    exception('数据库操作失败');
+                }
+
+                /*实例化附表类*/
+                $purchase_operation = new Purchase_operation();
+                /*附表进仓返回版本号*/
+                $result_1 = $purchase_operation->Set_type($type)->Set_data($goods_nums)->Set_edition()->Batch_add();
+                if(!$result_1){
+                    exception('未接收到回传参数');
+                }
+                $node = $this->column('id');
+                foreach ($node as $k=>$v){
+                    $newdata[] = ['id'=>$v,'data_node'=>$result_1];
+                }
+                $result_3 = $this->saveAll($newdata);
+                 //dump($result_3);
+                if($result && $result_1 && $result_3){
+                    $this->commit();
+                }else{
+                    exception('事务报错!');
+                }
+                return json_encode(array('status'=>true,'info'=>'操作成功','url'=>''));
+            } catch( \Exception $e){
+                $this->rollback();
+                return $this->error($e->getMessage());
+            }
         }
     }

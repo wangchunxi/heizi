@@ -140,21 +140,24 @@ class  Base extends  common{
      */
     function  get_Button_info($Set_location='1'){
         $Button_info = $this->menu_info;
-        foreach($Button_info as $k=>$v){
-            /*头部按钮*/
-            if($Set_location == 1){
-                if($v['nav_seat'] == 1  or  $v['nav_seat'] == 3){
-                    $data[] = $v;
+       // dump($Button_info);
+        if(isset($Button_info) && is_array($Button_info)){
+            foreach($Button_info as $k=>$v){
+                /*头部按钮*/
+                if($Set_location == 1){
+                    if($v['nav_seat'] == 1  or  $v['nav_seat'] == 3){
+                        $data[] = $v;
+                    }
+                }
+                /*列表页按钮*/
+                if($Set_location == 2){
+                    if($v['nav_seat'] == 2  or  $v['nav_seat'] == 3){
+                        $data[] = $v;
+                    }
                 }
             }
-            /*列表页按钮*/
-            if($Set_location == 2){
-                if($v['nav_seat'] == 2  or  $v['nav_seat'] == 3){
-                    $data[] = $v;
-                }
-            }
+            return $data;
         }
-        return $data;
     }
 
 }

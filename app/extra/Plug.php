@@ -177,10 +177,10 @@
                 array('货物规格'),
                 array('货物型号'),
                 array('条形编码'),
-                array('数量'),
                 array('单价'),
+                array('数量'),
                 array('金额'),
-                array('最后更新时间'),
+                array('版本号'),
                 array('操作')
             );
             return $array;
@@ -228,8 +228,17 @@
         function Set_Choice_Goods(){
             $array =array(
                 array('搜索框','search_name','search_class','goods_name','/admin/Purchase/ajax_search_goods','名称/规格/型号','plug'=>'ajax_search'),
-                array('货物名称','goods_name[]','get_all_goods','goods_name','plug'=>'checkbox'),
+                array('货物名称','goods_name[]','get_all_goods','goods_name','checkbox','plug'=>'checkbox'),
                 array('emblem_goods_name','plug'=>'div'),
+            );
+            return $array;
+        }
+        /*进销存*/
+        function Set_Enters_sells_saves(){
+            $array =array(
+                array('上传表格','group_name','text','','plug'=>'uploadXml','value'=>'group_name'),
+                array('状态选择','goods_name','','goods_name','switch','plug'=>'checkbox','additional'=>array('textis'=>'进仓','texton'=>'出仓')),
+                array('','class','hidden','','plug'=>'input','value'=>'')
             );
             return $array;
         }

@@ -186,8 +186,13 @@
             for($i=0;$i<$dataNum;$i++){
                 for($j=0;$j<$cellNum;$j++){
                     $expTableData[$i][$expCellName[$j][0]] = isset($expTableData[$i][$expCellName[$j][0]]) ? $expTableData[$i][$expCellName[$j][0]]: 0;
+                    if(isset($expCellName[$j][2]) && $expCellName[$j][2]  == 'str'){
+                        $expTableData[$i][$expCellName[$j][0]] =' '.$expTableData[$i][$expCellName[$j][0]];
+                    }
                     $objPHPExcel->getActiveSheet(0)->setCellValue($cellName[$j].$i_num, $expTableData[$i][$expCellName[$j][0]]);
+
                 }
+                $i_num++;
             }
             header('pragma:public');
             header('Content-type:application/vnd.ms-excel;charset=utf-8;name="'.$fileName.'.xls"');

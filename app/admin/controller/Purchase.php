@@ -36,6 +36,7 @@ class  Purchase extends  Base{
                 a.goods_num,a.add_time,a.data_node,a.update_time';
         /*获取页面数据*/
         $data = $this->model->Set_Post(input('post'))->Set_page(input('page'))->Set_page_num(10)->set_fields($field)->getList();
+        //dump($data);
         /*获取配置*/
         $data_config = $this->Get_sys('getlist');
         $data['config'] =$data_config['config'];
@@ -46,7 +47,11 @@ class  Purchase extends  Base{
     /*批量添加货物*/
     function Excel_Import_Goods(){
         if(request()->isPost()){
-           return $this->model->Set_Post($_POST)->Excel_Goods();
+            $array=array(
+                'ids','goods_name', 'goods_specification','goods_version','shape_code','goods_pice'
+            );
+            $arr = $this->model->Set_Post($_POST)->Excel_Goods($array,2);
+            return  $this->model->foreach_select($arr);
         }else{
             $data = $this->Get_sys('Excel_Import_Goods');
             return $this->Set_ListPage($data['config'],"public/info",$data['request_url']);
@@ -65,8 +70,16 @@ class  Purchase extends  Base{
                 }
                 $goods_arr = array_filter(array_unique(explode(',',$goods_id)));
                 $map['id'] = array('in',$goods_arr);
-                $result = $this->model->Set_map($map)->Set_fields('id,goods_name,goods_specification,goods_version')->get_select();
-                $this->model->Set_Post($result)->get_export($result);
+                $result = $this->model->Set_map($map)->Set_fields('id,goods_name,goods_specification,goods_version,shape_code')->get_select();
+                $fields = array(
+                    array('id','标记','str'),
+                    array('goods_name','货物名称'),
+                    array('goods_specification','规格'),
+                    array('goods_version','型号'),
+                    array('shape_code','条形码','str'),
+                    array('num','数量')
+                );
+                $this->model->Set_Post($result)->get_export($fields);
             }catch( \Exception $e){
                 return $this->error($e->getMessage());
             }
@@ -85,10 +98,39 @@ class  Purchase extends  Base{
             $search_name = input('search_name_');
             $map = array();
             if($search_name){
-                $map['goods_name|goods_specification|goods_version'] =array('like','%'.Trim($search_name).'%');
+                $map['goods_name|goods_specification|goods_version|shape_code'] =array('like','%'.Trim($search_name).'%');
             }
-            $result = $this->model->Set_map($map)->Set_fields('id,goods_name,goods_specification,goods_version')->get_select();
+            $result = $this->model->Set_map($map)->Set_fields('id,goods_name,goods_specification,goods_version,shape_code')->get_select();
             return  json_encode(array('status'=>true,'info'=>$this->model->get_array_assembly($result),'url'=>''));
+        }
+    }
+
+    /**
+     * 进销存
+     */
+    public function Enters_sells_saves(){
+        if(request()->isPost()){
+           try{
+               $post = input('post.');
+               if(!isset($post['file_url']) || empty($post['file_url'])){
+                    exception(‘请先上传文件’);
+               }
+               /*出仓否则为进仓*/
+               if(!isset($post['goods_name'])){
+                   $post['goods_name'] = false;
+               }
+               $array=array(
+                   'id','goods_name', 'goods_specification','goods_version','shape_code','goods_num'
+               );
+               $arr = $this->model->Set_Post($post)->Excel_Goods($array,3);
+               return $this->model->Set_Post($post)->handling_Enters_sells_saves($arr);
+           } catch( \Exception $e){
+               return $this->error($e->getMessage());
+           }
+
+        }else{
+            $data = $this->Get_sys('Enters_sells_saves');
+            return $this->Set_ListPage($data['config'],"public/info",$data['request_url'],'');
         }
     }
     /*添加页面*/
@@ -158,9 +200,14 @@ class  Purchase extends  Base{
                 $data['config']= $Plug->index('Set_Excel_Import_Goods_Info');
                 $data['request_url']['submit_url'] = url('Excel_Import_Goods');
                 break;
+            /*选择货物导出模板*/
             case 'choice_goods':
                 $data['config']= $Plug->index('Set_Choice_Goods');
                 $data['request_url']['submit_url'] = url('choice_goods');
+                break;
+            case'Enters_sells_saves':
+                $data['config']= $Plug->index('Set_Enters_sells_saves');
+                $data['request_url']['submit_url'] = url('Enters_sells_saves');
                 break;
         }
         return $data;

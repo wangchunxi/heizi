@@ -8,6 +8,7 @@
     namespace plug_config;
 
     use app\admin\model\Menu;
+    use app\admin\model\Purchase;
 
     class plug_config {
         private $plug;
@@ -109,7 +110,14 @@
                 /*返回模块名称*/
                 $config['plug'] = $v['plug'];
                 /*进行数据整合*/
-                //dump($config);
+                /*后期追加数组*/
+                if(isset($v['additional']) && is_array($v['additional'])){
+                    foreach($v['additional']  as $key=>$value){
+                        if($value && !empty($value)){
+                            $config['config'][$key] = $value;
+                        }
+                    }
+                }
                 $data[$k]['config'] = json_encode($config);
             }
            // dump($data);exit();
@@ -156,7 +164,7 @@
                     break;
                 case 'checkbox':
                     $set_array = $set_config['info']; $set_array[]='option';
-                    $set_array[]='class';
+                    $set_array[]='class';$set_array[]='type';
                     break;
                 case 'div':
                     $set_array[]='class';
@@ -188,7 +196,13 @@
                 $new_array[$v] =  isset($data[$k]) ? $data[$k]: '';
                 /*特殊的模块参数调用指定方法*/
                 if($v == 'option' && isset($data[$k])){
-                    $new_array[$v] =  $this->$data[$k]();
+                    if($data[$k]){
+                        $test = $data[$k];
+                        $data_arr =  $this->$test();
+                        $new_array[$v] = $data_arr;
+                    }else{
+                        $new_array[$v] ='';
+                    }
                 }
                 //dump($this->Value[$data['value']]);
                 if($v == 'value' && isset($this->Value[$data['value']])){
@@ -234,15 +248,9 @@
             return $data;
         }
         public function get_all_goods(){
-            $data =array(
-                '1'=>'书',
-                '2'=>'书',
-                '3'=>'书',
-                '4'=>'书',
-                '5'=>'书',
-                '6'=>'书',
-                '7'=>'书',
-            );
+            $Pur = new Purchase();
+            $data =$Pur->Set_fields('id,goods_name,goods_specification,goods_version,shape_code')->get_select();
+            $data = $Pur->get_array_assembly($data);
             return $data;
         }
 
