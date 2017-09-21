@@ -6,7 +6,6 @@
  * Time: 14:47
  */
 namespace app\admin\controller;
-use app\admin\model\Admin;
 use Plug\Plug;
 use think\Controller;
 use think\Url;
@@ -71,6 +70,12 @@ class  Purchase extends  Base{
      */
     public function ajax_search_goods(){
         if(request()->isAjax()){
+            /*组合查询条件*/
+            $search_name = input('search_name');
+            if($search_name){
+                $map['goods_name|goods_specification|goods_version'] =array('like','%'.$search_name);
+            }
+            $result = $this->model->Set_map($map)->Set_fields('id,goods_name,goods_specification,goods_version')->get_select();
 
         }
     }

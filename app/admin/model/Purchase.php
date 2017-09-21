@@ -201,4 +201,18 @@
             return  json_encode(array('status'=>$staus,'info'=>$info,'url'=>'','cause'=>$cause));
         }
 
+        /**获取列表信息，不带分页
+         * @return array
+         */
+        function get_select(){
+            $result = $this->where($this->map)->field($this->field)->select()->toArray();
+            return $result;
+        }
+        /**
+         *名称*型号*规格*组合
+         */
+        function get_array_assembly($array){
+            foreach()
+        }
+
     }

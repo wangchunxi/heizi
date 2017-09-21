@@ -227,6 +227,7 @@
         /*选择货物页面*/
         function Set_Choice_Goods(){
             $array =array(
+                array('搜索框','search_name','search_class','goods_name','/admin/Purchase/ajax_search_goods','名称/规格/型号','plug'=>'ajax_search'),
                 array('货物名称','goods_name[]','get_all_goods','goods_name','plug'=>'checkbox'),
                 array('emblem_goods_name','plug'=>'div'),
             );

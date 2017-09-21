@@ -1,0 +1,49 @@
+<div class="layui-form-item">
+    <label class="layui-form-label">{$data.name}</label>
+    <div class="layui-input-inline">
+        <input type="text" name="{$data.submit_name}"  placeholder="{$data.placeholder}"  class="layui-input {$data.class}">
+    </div>
+    <div>
+        <a class="layui-btn search_btn" lay-submit="" lay-filter="formDemoPane"href="javascript:;" >搜索</a>
+    </div>
+</div>
+<script>
+    layui.use('form', function() {
+        var form = layui.form;
+        $('.search_btn').on('click',function(){
+            submit_function();
+        })
+        function submit_function() {
+            var url = "<?php echo Url($data['url']); ?>";
+            var class_name = "{$data.class}";
+            var search = $("." + class_name).val();
+            var submit_name = "{$data.submit_name}";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: "{$data.submit_name} = " + search,
+                success: function (msg) {
+                    msg = eval('(' + msg + ')');
+                    if (msg.status == true) {
+                        if ($('input').hasClass('goods_id') == true) {
+                            var newArray = $('.goods_id').val().split(",");
+                            newArray = uniq_array(newArray);
+                            var html = '';
+                            for (var i in msg.info) {
+                                var checked = '';
+                                if ($.inArray(i, newArray) !== -1) {
+                                    checked = 'checked';
+                                }
+                                html += '<input type="checkbox"  name="goods_name[]"  value="' + i + '"  title="' + msg.info[i] + '" lay-filter="goods_name" ' + checked + ' >';
+                            }
+                            console.log(html);
+                        }
+                        $('.goods_name').html(html);
+                        form.render();
+                    }
+                }
+            });
+        }
+    })
+
+</script>

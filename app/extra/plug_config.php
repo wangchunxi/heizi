@@ -161,6 +161,12 @@
                 case 'div':
                     $set_array[]='class';
                     break;
+                case 'ajax_search':
+                    $set_array = $set_config['info'];
+                    $set_array[]='class';$set_array[]='operate_class';
+                    $set_array[]='url';
+                    $set_array[]='placeholder';
+                    break;
             }
             if($this->Value){
                 $set_array[]='value';
