@@ -58,10 +58,21 @@ class  Purchase extends  Base{
      */
     public function choice_goods (){
         if(request()->isPost()){
-
+            try{
+                $goods_id = input('goods_id');
+                if(!$goods_id || empty($goods_id)){
+                    exception('请选择货物再进行操作');
+                }
+                $goods_arr = array_filter(array_unique(explode(',',$goods_id)));
+                $map['id'] = array('in',$goods_arr);
+                $result = $this->model->Set_map($map)->Set_fields('id,goods_name,goods_specification,goods_version')->get_select();
+                $this->model->Set_Post($result)->get_export($result);
+            }catch( \Exception $e){
+                return $this->error($e->getMessage());
+            }
         }else{
             $data = $this->Get_sys('choice_goods');
-            return $this->Set_ListPage($data['config'],"public/info",$data['request_url']);
+            return $this->Set_ListPage($data['config'],"public/info",$data['request_url'],'',false);
         }
     }
 
@@ -71,12 +82,13 @@ class  Purchase extends  Base{
     public function ajax_search_goods(){
         if(request()->isAjax()){
             /*组合查询条件*/
-            $search_name = input('search_name');
+            $search_name = input('search_name_');
+            $map = array();
             if($search_name){
-                $map['goods_name|goods_specification|goods_version'] =array('like','%'.$search_name);
+                $map['goods_name|goods_specification|goods_version'] =array('like','%'.Trim($search_name).'%');
             }
             $result = $this->model->Set_map($map)->Set_fields('id,goods_name,goods_specification,goods_version')->get_select();
-
+            return  json_encode(array('status'=>true,'info'=>$this->model->get_array_assembly($result),'url'=>''));
         }
     }
     /*添加页面*/

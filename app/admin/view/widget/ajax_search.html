@@ -24,11 +24,11 @@
                 data: "{$data.submit_name} = " + search,
                 success: function (msg) {
                     msg = eval('(' + msg + ')');
+                    var html = '';
                     if (msg.status == true) {
                         if ($('input').hasClass('goods_id') == true) {
                             var newArray = $('.goods_id').val().split(",");
                             newArray = uniq_array(newArray);
-                            var html = '';
                             for (var i in msg.info) {
                                 var checked = '';
                                 if ($.inArray(i, newArray) !== -1) {
@@ -37,6 +37,10 @@
                                 html += '<input type="checkbox"  name="goods_name[]"  value="' + i + '"  title="' + msg.info[i] + '" lay-filter="goods_name" ' + checked + ' >';
                             }
                             console.log(html);
+                        }else{
+                            for (var i in msg.info) {
+                                html += '<input type="checkbox"  name="goods_name[]"  value="' + i + '"  title="' + msg.info[i] + '" lay-filter="goods_name"  >';
+                            }
                         }
                         $('.goods_name').html(html);
                         form.render();

@@ -26,7 +26,11 @@
             /*前后空格处理*/
             if(is_array($Post)){
                 foreach($Post as $key =>$value){
-                    $post[$key] = Trim($value);
+                    if(is_array($value)){
+                        $post[$key] = $value;
+                    }else{
+                        $post[$key] = Trim($value);
+                    }
                 }
             }else{
                 $post = $Post;
@@ -170,7 +174,7 @@
          */
         function Excel_Goods(){
             $post = $this->Post;
-           $excel =  new \Excel();
+            $excel =  new \Excel();
             $array=array(
                 'ids','goods_name', 'goods_specification','goods_version','shape_code','goods_pice'
             );
@@ -205,14 +209,30 @@
          * @return array
          */
         function get_select(){
-            $result = $this->where($this->map)->field($this->field)->select()->toArray();
+            $result = $this->where($this->map)->field($this->fields)->select()->toArray();
             return $result;
         }
         /**
          *名称*型号*规格*组合
          */
         function get_array_assembly($array){
-            foreach()
+            $data = array();
+            foreach($array as $k=>$v){
+                $data[$v['id']] = $v['goods_name'].$v['goods_specification'].$v['goods_version'];
+            }
+            return $data;
         }
-
+        /*导出进销存export*/
+        function get_export(){
+            $post = $this->Post;
+            $excel =  new \Excel();
+            $fields = array(
+                array('id','标记'),
+                array('goods_name','货物名称'),
+                array('goods_specification','规格'),
+                array('goods_version','型号'),
+                array('num','数量')
+            );
+            $excel->Set_data($post)->Set_data_title($fields)->Set_file_name('进销存')->Set_title('进销存')->Set_ExcelType('export')->Excel_operate();
+        }
     }

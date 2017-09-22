@@ -55,7 +55,7 @@ class  Base extends  common{
      * @param string $request_url 要展示的页面文件里的链接
      * @return \think\response\View 返回视图
      */
-    function Set_ListPage($data,$view ='',$request_url='',$data_arr=''){
+    function Set_ListPage($data,$view ='',$request_url='',$data_arr='',$ajax_button=true){
         if(empty($view)){
             $view = 'public/table_list';
         }
@@ -86,6 +86,7 @@ class  Base extends  common{
             }
 
         //}
+        $this->assign('ajax_button',$ajax_button);
         if($data_arr){
             $this->assign('data',$data_arr);
         }

@@ -22,7 +22,17 @@
             {:widget("admin/Webplug/webplug",$vo['config'])}
             {/volist}
             <div class="layui-input-block">
-                <a   href="javascript:; "  type="button"  class="layui-btn" lay-submit lay-filter="*">立即提交</a>
+                <?php
+                    if(!$ajax_button){
+                ?>
+                    <input type="submit"  class="layui-btn" value="立即提交1">
+                <?php
+                    }else{
+                ?>
+                    <a   href="javascript:; "  type="button"  class="layui-btn" lay-submit lay-filter="*">立即提交</a>
+                <?php
+                    }
+                ?>
                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>

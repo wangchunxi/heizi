@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2017-09-20 18:10:37
+Date: 2017-09-22 17:53:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -43,7 +43,7 @@ CREATE TABLE `h_admin` (
 -- ----------------------------
 -- Records of h_admin
 -- ----------------------------
-INSERT INTO `h_admin` VALUES ('1', 'admin', 'b7ca6c19414db6298480c6e7d23e6ed2', '0', '1,4,5,8,9,10', '小白', '18129911829', '192.168.56.1', '1505873407', '192.168.56.1', '1505730275', '1500037150', '192.168.56.1', null, null, '1', '1');
+INSERT INTO `h_admin` VALUES ('1', 'admin', 'b7ca6c19414db6298480c6e7d23e6ed2', '0', '1,4,5,8,9,10', '小白', '18129911829', '192.168.56.1', '1506063803', '192.168.56.1', '1505905273', '1500037150', '192.168.56.1', null, null, '1', '1');
 INSERT INTO `h_admin` VALUES ('2', 'guojingxian@qq.com', '', '0', null, '锅1+1', '18688561053', null, null, null, null, '1501376133', '192.168.56.1', '1502536709', null, '1', '0');
 
 -- ----------------------------
@@ -114,7 +114,7 @@ CREATE TABLE `h_log` (
   `surface` varchar(255) DEFAULT NULL COMMENT '操作的表名称',
   `action_ip` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of h_log
@@ -158,6 +158,8 @@ INSERT INTO `h_log` VALUES ('36', '1', 'admin', '1502873550', 'share/admin/login
 INSERT INTO `h_log` VALUES ('37', '1', 'admin', '1502889387', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
 INSERT INTO `h_log` VALUES ('38', '1', 'admin', '1505730275', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
 INSERT INTO `h_log` VALUES ('39', '1', 'admin', '1505873407', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
+INSERT INTO `h_log` VALUES ('40', '1', 'admin', '1505905273', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
+INSERT INTO `h_log` VALUES ('41', '1', 'admin', '1506063803', 'share/admin/login', 'id为1用户admin登录成功', '登录', null, 'h_admin', '192.168.56.1');
 
 -- ----------------------------
 -- Table structure for h_menu
