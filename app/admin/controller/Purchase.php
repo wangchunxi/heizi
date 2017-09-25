@@ -113,7 +113,7 @@ class  Purchase extends  Base{
            try{
                $post = input('post.');
                if(!isset($post['file_url']) || empty($post['file_url'])){
-                    exception(‘请先上传文件’);
+                    exception('请先上传文件');
                }
                /*出仓否则为进仓*/
                if(!isset($post['goods_name'])){
