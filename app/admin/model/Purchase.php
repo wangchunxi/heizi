@@ -95,6 +95,7 @@
             /*入库操作*/
             if($post['id']<=0){
                 $data_node = $this->where('id',1)->value('data_node');
+                $data_node = isset($data_node) ?$data_node : 0;
                 $post['data_node'] = $data_node;
                 $result = $this->insert($post);
             }else{
@@ -308,14 +309,15 @@
                 $purchase_operation = new Purchase_operation();
                 /*附表进仓返回版本号*/
                 $result_1 = $purchase_operation->Set_type($type)->Set_data($goods_nums)->Set_edition()->Batch_add();
-                if(!$result_1){
-                    exception('未接收到回传参数');
-                }
-                $node = $this->column('id');
-                foreach ($node as $k=>$v){
-                    $newdata[] = ['id'=>$v,'data_node'=>$result_1];
-                }
-                $result_3 = $this->saveAll($newdata);
+//                if(!$result_1){
+//                    exception('未接收到回传参数');
+//                }
+//                $node = $this->column('id');
+//                foreach ($node as $k=>$v){
+//                    $newdata[] = ['id'=>$v,'data_node'=>$result_1];
+//                }
+//                $result_3 = $this->saveAll($newdata);
+                $result_3 = $this->edit_versions($result_1);
                  //dump($result_3);
                 if($result && $result_1 && $result_3){
                     $this->commit();
@@ -327,5 +329,81 @@
                 $this->rollback();
                 return $this->error($e->getMessage());
             }
+        }
+
+        /**查询版本号
+         * @param string $versions 要检查的版本号，如果不输入返回版本号输入就匹配版本号是否核对的上
+         */
+        function  query_versions($versions=''){
+            if(is_numeric($versions)){
+                $map['data_node'] = $versions;
+            }
+            /*查询版本号*/
+            $arr_versions = $this->where($map)->field('data_node')->find();
+            if(is_numeric($versions)){
+                if($arr_versions['data_node'] == $versions){
+                    return true;
+                }else{
+                    return false;
+                };
+            }
+            return $arr_versions['data_node'];
+        }
+        /*修改版本号*/
+        function edit_versions($versions=''){
+            if(empty($versions) && $versions!=0){
+                exception('未获取到版本号');
+            }
+            $node = $this->column('id');
+            foreach ($node as $k=>$v){
+                $newdata[] = ['id'=>$v,'data_node'=>$versions];
+            }
+            $result = $this->saveAll($newdata);
+            return $result;
+        }
+        /*处理版本回滚数据库数量修改*/
+        function versions_dios($data,$type,$status){
+            if(!isset($data) && !isset($type) && !isset($status)){
+                exception('缺少参数');
+            }
+            if(!is_array($data)){
+                exception('参数类型错误');
+            }
+            foreach($data as $k=>$value){
+                $data[ $value['purchase_id']] = $value['goods_num'];
+                $ids[] = $value['purchase_id'];
+            }
+            $str_id = implode(',',$ids);
+            $map['id'] = array('in',$str_id);
+            $result = $this->where($map)->field('id,goods_num,goods_name')->select();
+            /*由禁用改为启用*/
+            if($status == 1){
+               $result_array =  $this->get_db_array($result,$ids,$type);
+            }else{
+                if($type == 0){
+                    $type = 1;
+                }else{
+                    $type = 0 ;
+                }
+                $result_array =  $this->get_db_array($result,$ids,$type);
+            }
+            return $this->saveAll($result_array);
+        }
+
+        /**
+         *
+         */
+        function  get_db_array($new_array,$array,$type){
+            foreach($new_array as $k=>$va){
+                if($type == 1){
+                    if($va['goods_num']-$array[$va['id']]<0){
+                        exception('版本还原失败,原因:'.$va['goods_name'].'货物数量不够出仓');
+                    }
+                    $new_data[$k] = $va['goods_num']-$array[$va['id']];
+                }else{
+                    $new_data[$k] = $va['goods_num']+$array[$va['id']];
+                }
+            }
+            return $new_data;
         }
     }

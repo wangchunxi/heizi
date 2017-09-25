@@ -9,6 +9,7 @@
 
     use app\admin\model\Menu;
     use app\admin\model\Purchase;
+    use app\admin\model\Purchase_operation;
 
     class plug_config {
         private $plug;
@@ -175,6 +176,10 @@
                     $set_array[]='url';
                     $set_array[]='placeholder';
                     break;
+                case 'run_water':
+                    $set_array = $set_config['info'];
+                    $set_array[]='option';
+                    break;
             }
             if($this->Value){
                 $set_array[]='value';
@@ -252,6 +257,11 @@
             $data =$Pur->Set_fields('id,goods_name,goods_specification,goods_version,shape_code')->get_select();
             $data = $Pur->get_array_assembly($data);
             return $data;
+        }
+        public  function get_versions(){
+            $model = new Purchase_operation();
+            $data = $model->get_versions();
+            return  $data;
         }
 
     }

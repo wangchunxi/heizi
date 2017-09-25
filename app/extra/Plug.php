@@ -242,4 +242,10 @@
             );
             return $array;
         }
+        function Set_versions(){
+            $array =array(
+                array('版本流水','group_name','get_versions','plug'=>'run_water','additional'=>array('value'=>'edition','value1'=>'content')),
+            );
+            return $array;
+        }
     }

@@ -133,6 +133,11 @@ class  Purchase extends  Base{
             return $this->Set_ListPage($data['config'],"public/info",$data['request_url'],'');
         }
     }
+    /*查询所有的版本*/
+    public function versions(){
+        $data = $this->Get_sys('versions');
+        return $this->Set_ListPage($data['config'],"public/info",$data['request_url'],'');
+    }
     /*添加页面*/
     public function add(){
       return  $this->info();
@@ -205,10 +210,16 @@ class  Purchase extends  Base{
                 $data['config']= $Plug->index('Set_Choice_Goods');
                 $data['request_url']['submit_url'] = url('choice_goods');
                 break;
+            /*进销存*/
             case'Enters_sells_saves':
                 $data['config']= $Plug->index('Set_Enters_sells_saves');
                 $data['request_url']['submit_url'] = url('Enters_sells_saves');
                 break;
+            case'versions':
+                $data['config']= $Plug->index('Set_versions');
+                $data['request_url']['submit_url'] = url('');
+                break;
+
         }
         return $data;
     }

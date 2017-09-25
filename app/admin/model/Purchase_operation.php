@@ -11,27 +11,30 @@ class Purchase_operation extends Model{
     private $post;
     private $edition;
     private $types;
-    /**
-     * @param $data
+    private $map;
+    private $status;
+    /**状态赋值
+     * @param string $status
      * @return $this
-     * 要添加的数据
      */
-    function Set_data($data){
-        $this->post =  $data;
-        return $this;
-    }
-    function Set_type($type){
-        $this->types = $type;
+    public function Set_status($status=''){
+        $this->status=$status;
         return $this;
     }
 
-    /**生成版本号
-     * @param $edition
-     * @return $this
-     */
-    function Set_edition($edition=''){
-        $edition = date('Ymdhi').mt_rand(0,999);
-        $this->edition = $edition;
+    public function Set_data($data=''){
+        $this->post =  $data;
+        return $this;
+    }
+
+    public function Set_type($type=''){
+        $this->types = $type;
+        return $this;
+    }
+    public function Set_map($data=''){
+        $map['status'] = 1;
+        $map_arr = array_merge($map,$data);
+        $this->map = $map_arr;
         return $this;
     }
 
@@ -83,5 +86,96 @@ class Purchase_operation extends Model{
             exception('附表进仓错误');
         }
         return $edition;
+    }
+    function get_versions(){
+        /*统计查询*/
+        $sql = "
+               SELECT
+                COUNT(*) as nums,
+                sum(a.goods_num) as num,
+               	CASE a.operation_type WHEN 0  THEN '进仓' WHEN 1 THEN '出仓' END as type ,
+                a.edition,
+                b.username,
+                a.`status`,
+                FROM_UNIXTIME(a.operation_time) as add_time
+            FROM
+                h_purchase_operation as a LEFT JOIN h_admin as b ON a.add_id = b.id
+            GROUP BY
+                a.edition,a.operation_time,a.operation_type,a.add_id,a.`status`
+            ORDER BY
+                operation_time
+            DESC";
+        $data_info = $this->query($sql);
+        foreach ($data_info as $k=>$v){
+            $data_content[$k]['content']='操作时间:'.$v['add_time'].'<br/> 操作类型:'.$v['type'].'<br/> 操作货物类型:'.
+                $v['nums'].'种<br/>操作货物总量:'.$v['num'].'个<br/> 操作人:'.$v['username'];
+            $data_content[$k]['edition'] =$v['edition'];
+            $data_content[$k]['status'] =$v['status'];
+        }
+        return $data_content;
+    }
+
+    /**
+     * @return $this
+     */
+    public  function update_data(){
+        $post = $this->vali_data('post');
+        $map = $this->map;
+        if(isset($map) && isset($post['id'])){
+            $result = $this->where($map)->update($post);
+        }else{
+
+        }
+        return $result;
+    }
+    /**
+     * 版本禁用or版本回滚
+     */
+    public function versions_bank(){
+        $this->startTrans();
+        $post = $this->vali_data('post');
+        if(!isset($post['edition']) || empty($post['edition']) || !is_numeric($post['edition'])){
+            exception('未获取版本号');
+        }
+        $map['edition'] = $post['edition'];
+        /*验证状态是否符合操作*/
+        $status = $this->where($map)->field('*')->select();
+        if(empty($status)){
+            exception('没查到这个版本信息');
+        }
+        if($post['status'] == $status[0]['status']){
+            exception('状态无法切换');
+        }
+        $data['status'] =$post['status'];
+        /*改变入库详情状态*/
+        $result = $this->where($map)->update($data);
+        /*查询版本号*/
+        $model = new Purchase();
+        $result_true = $model->query_versions($post['edition']);
+        /*版本号存在就修改掉当前所用的版本号*/
+        if($result_true == true){
+            $map = null;
+            $map['edition'] = array('neq',$post['edition']);
+            $versions = $this->Set_map($map)->get_ver();
+            $result_1 = $model->edit_versions($versions);
+        }else{
+            $result_1 = true;
+        }
+        /*修改数据库货物数量*/
+        $result_2 =  $model->versions_dios($status,$status[0]['operation_type'],$post['status']);
+        if($result && $result_1 && $result_2){
+            $this->commit();
+        }else{
+            $this->rollback();
+        }
+    }
+
+    /*执行操作*/
+    function get_ver(){
+        $versions = $this->where($this->map)->field('edition')->order('operation_time','desc')->find();
+        if(!is_numeric($versions['edition'])){
+            $versions['edition'] = 0;
+        }
+        return $versions['edition'];
     }
 }
